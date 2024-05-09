@@ -1,40 +1,10 @@
 'use client';
 
 import { useMachine } from '@xstate/react';
-import { createActor, createMachine } from 'xstate';
-
-const toggleMachine = createMachine({
-    id: 'toggle',
-    initial: 'cart',
-    states: {
-        cart: {
-            on: { address: 'adressed' },
-        },
-        adressed: {
-            on: { select_shipping: 'shipping_selected' },
-        },
-        shipping_selected: {
-            on: { address: 'adressed', select_payment: 'payment_selected' },
-        },
-        payment_selected: {
-            on: { address: 'adressed', complete: 'completed' },
-        },
-        completed: {},
-    },
-});
-
-const actor = createActor(toggleMachine);
-
-// Subscribe to snapshots (emitted state changes) from the actor
-actor.subscribe((snapshot) => {
-    console.log('Value:', snapshot.value);
-});
-
-// Start the actor
-actor.start(); // logs 'Inactive'
+import { purchaseMachine } from './machines/purchaseMachine';
 
 export default function Home() {
-    const [state, send] = useMachine(toggleMachine);
+    const [state, send] = useMachine(purchaseMachine);
 
     return (
         <main className="prose">
