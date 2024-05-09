@@ -4,6 +4,7 @@ import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
 import Shipping from './components/Shipping';
 import Addressed from './components/Addressed';
+import Cart from './components/Cart';
 
 export default function Home() {
     const [state, send] = useMachine(purchaseMachine);
@@ -12,22 +13,12 @@ export default function Home() {
         <main className="prose">
             <h1>purchasing process</h1>
             {state.value === 'cart' && (
-                <section>
-                    <h2>Cart</h2>
-                    <ul>
-                        <li>Product 1</li>
-                        <li>Product 2</li>
-                        <li>Product 3</li>
-                    </ul>
-                    <button
-                        className="btn"
-                        onClick={() => send({ type: 'address' })}
-                    >
-                        Go to address
-                    </button>
-                </section>
+                <Cart
+                    products={state.context.products}
+                    send={send}
+                />
             )}
-            {state.value === 'adressed' && <Addressed send={send} />}
+            {state.value === 'addressed' && <Addressed send={send} />}
             {state.value === 'shipping_selected' && <Shipping send={send} />}
             {state.value === 'payment_selected' && (
                 <section>
