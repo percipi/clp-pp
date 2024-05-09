@@ -2,6 +2,7 @@
 
 import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
+import Shipping from './components/Shipping';
 
 export default function Home() {
     const [state, send] = useMachine(purchaseMachine);
@@ -50,37 +51,7 @@ export default function Home() {
                     </div>
                 </section>
             )}
-            {state.value === 'shipping_selected' && (
-                <section>
-                    <h2>Shipping</h2>
-                    <p>Choose shipping type:</p>
-                    <ul>
-                        <li>DHL</li>
-                        <li>UDP</li>
-                    </ul>
-                    <div className="flex gap-5">
-                        <button
-                            className="btn"
-                            onClick={() => send({ type: 'address' })}
-                        >
-                            Back to address
-                        </button>
-                        <button
-                            className="btn"
-                            disabled
-                            onClick={() => send({ type: 'skip_payment' })}
-                        >
-                            Skip payment
-                        </button>
-                        <button
-                            className="btn"
-                            onClick={() => send({ type: 'select_payment' })}
-                        >
-                            Go to payment
-                        </button>
-                    </div>
-                </section>
-            )}
+            {state.value === 'shipping_selected' && <Shipping send={send} />}
             {state.value === 'payment_selected' && (
                 <section>
                     <h2>Payment</h2>
