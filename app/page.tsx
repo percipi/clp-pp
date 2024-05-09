@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Home() {
     return (
-        <main>
+        <main className="prose">
             <h1>purchasing process</h1>
             <h2>cart</h2>
             <ul>
