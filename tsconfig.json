@@ -4,7 +4,7 @@
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
-        "noEmit": true,
+        // "noEmit": true,
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noImplicitReturns": true /* Enable error reporting for codepaths that do not explicitly return in a function. */,

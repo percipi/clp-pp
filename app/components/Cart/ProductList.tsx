@@ -1,15 +1,15 @@
+import { Product, purchaseMachine } from '@/app/machines/purchaseMachine';
+import { useMachine } from '@xstate/react';
 import React from 'react';
-import { Product, PurchaseEvents } from '../machines/purchaseMachine';
 
 interface Props {
-    send: (event: PurchaseEvents) => void;
     products: Product[];
 }
 
-const Cart = ({ send, products }: Props) => {
+const ProductList = ({ products }: Props) => {
     return (
-        <section>
-            <h2>Cart</h2>
+        <section className="my-10">
+            <h3>Products</h3>
             <ul>
                 {products.map((product) => (
                     <li key={product.id}>
@@ -18,14 +18,8 @@ const Cart = ({ send, products }: Props) => {
                     </li>
                 ))}
             </ul>
-            <button
-                className="btn"
-                onClick={() => send({ type: 'address' })}
-            >
-                Go to address
-            </button>
         </section>
     );
 };
 
-export default Cart;
+export default ProductList;

@@ -4,7 +4,7 @@ import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
 import Shipping from './components/Shipping';
 import Addressed from './components/Addressed';
-import Cart from './components/Cart';
+import Cart from './components/Cart/Cart';
 
 export default function Home() {
     const [state, send] = useMachine(purchaseMachine);

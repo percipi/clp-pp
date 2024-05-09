@@ -23,6 +23,7 @@ export type PurchaseEvents =
     | { type: 'shipping' }
     | { type: 'select_payment' }
     | { type: 'skip_payment' }
+    | { type: 'add_product'; value: Omit<Product, 'id'> }
     | { type: 'complete' };
 const purchaseMachine = setup({
     types: {} as {
@@ -30,23 +31,10 @@ const purchaseMachine = setup({
         events: PurchaseEvents;
     },
 }).createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QAcCuAnAxgCwIazAFlccBLAOzADpNd0AXAYlwgnTlgG0AGAXURQB7WKXqlB5ASAAeiALQAmAKwKqARiUA2ZQBoQAT0RqFAXxN60WPAWJlKVFmw6RGsbKWTIKUHvyQhkYVFxSX9ZBEUATgBmKgB2TS1dAyNNaLMLDBx8IhJ3e0d2WAIIV3dPb041PyERMQkpcLklbipIhKSlPUMENTSMgKzrXLtqNw8vcigAfQIAGzBMehdCjl8pQLqQxvkAFm4ADnVO7sQFBTiBy2ybPIox8smZ+cXl0pel6eRcfQBbMHI9HW-k2wQaYXkCgOsQ02i6KQQCkiuyoSiuQxytnyDwm3lmAGsJi5gbUwaFQOE1FRokpYcketEFNx0VZMXd7OMKlMCUTSlUagEgvVyTIjLTqVDjPCGUyWTcRtiqN8-gD6DzPMS+BshdsIb0DkoqEzolLTgglDS5cMsfclT9-oDZmAFksVqwilwtSCdeCKXtNHFqaaEdE4szzINWbdRnaVY6Pm9GJhBL9kAtliTBVtfaKIspItTaScERbYmiBuRBBA4BsMdHsdrsyKmkWg-T5BpDeXMlGFbbaAxG2SdnmWsc4Wa5JoDla2THVsVIEPhSPFFoqNw4gdgz01NxVN3I-KbRzHniE0vvU3V1DYpELTuzhdZ-XbZynurkJfSSu9YoUWGJrtoiz4Rtc1rstQyoOmqsCEhqEDLrqfq9NEBaHEoMRxNKiC7CaqIvn29jQaqToum8SE5k0UIogoe5YThCB4VSh7gXOirJqm6bflmw5-lCrQYQxZraLEyhmGYQA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcCuAnAxgCwIazAFlccBLAOzADpNd0AXAYlwgnTlgG0AGAXURQB7WKXqlB5ASAAeiALQAmAKwKqARiUA2ZQBoQAT0RqFAXxN60WPAWJlKVFmw6RGsbKWTIKUHvyQhkYVFxSX9ZBEUATgBmKgB2TS1dAyNNaLMLDBx8IhJ3e0d2WAIIV3dPb041PyERMQkpcLklbipIhKSlPUMENTSMgKzrXLtqNw8vcigAfQIAGzBMehdCjl8pQLqQxvkAFm4ADnVO7sQFBTiBy2ybPIox8smZ+cXl0pel6eRcfQBbMHI9HW-k2wQaYXkCgOsQ02i6KQQCkiuyoSiuQxytnyDwm3lmAGsJi5gbUwaFQOE1FRokpYcketEFNx0VZMXd7OMKlMCUTSlUagEgvVyTIjLTqVDjPCGUyWTcRtiqN8-gD6DzPMS+BshdsIb0DkoqEzolLTgglDS5cMsfclT9-oDZmAFksVqwilwtSCdeCKXtNHFqaaEdE4szzINWbdRnaVY6Pm9GJhBL9kAtliTBVtfaKIspItTaScERbYmiI9drezqLQGMxWAAFdCCCCoJaZ0HCnYRXZqVp06XyTSaeK7SLjpQHNRj2m7MwR8gtuAbDHR7Ha7MippFoP0+QaQ1j8dxaKRNQm3YHbiXCurhW22v0Ddk7uKFrHOFmuSaA5Wtkx1ZikgZ8uz1N8R2vKc916bhVHLTIo3vDlHjxBNgO9TdXyhWJIgtYMenOG8EPlG1kNxblYEJDUIBA3U-TzFEwxNaDCL-NdbWVB01Uo3laJzSlTyoQ4lBiOJBwQXYTVRNikOoTjVSdF03j4rdIQOFEFD7UTxMkql4MjEjqxoFM0zAZSMJfMCoVaYTtLNbRYmUecTCAA */
     id: 'purchaseMachine',
     context: {
-        products: [
-            {
-                id: 0,
-                name: 'wiadro',
-                price: 10,
-                isShippingRequired: true,
-            },
-            {
-                id: 1,
-                name: 'Emi - audiobook',
-                price: 0,
-                isShippingRequired: false,
-            },
-        ],
+        products: [],
         address: {
             street: 'ul. Krakowska 45/5',
             city: 'Poznań',
@@ -58,6 +46,23 @@ const purchaseMachine = setup({
         cart: {
             on: {
                 address: 'addressed',
+                add_product: {
+                    //target: 'cart',
+                    actions: assign({
+                        products: ({ event, context }) => {
+                            return [
+                                ...context.products,
+                                {
+                                    id:
+                                        context.products[
+                                            context.products.length - 1
+                                        ]?.id + 1 || 0,
+                                    ...event.value,
+                                },
+                            ];
+                        },
+                    }),
+                },
             },
         },
 
