@@ -12,7 +12,7 @@ export default function Home() {
     return (
         <main className="prose">
             <h1>purchasing process</h1>
-            {state.value === 'cart' && (
+            {state.value === 'cart' && ( // TODO change to matches
                 <Cart
                     products={state.context.products}
                     send={send}

@@ -18,7 +18,7 @@ const Addressed = ({ send, address }: Props) => {
             <div className="flex gap-5">
                 <button
                     className="btn"
-                    onClick={() => send({ type: 'select_shipping' })}
+                    onClick={() => send({ type: 'shipping' })}
                 >
                     Next
                 </button>

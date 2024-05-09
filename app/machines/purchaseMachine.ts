@@ -20,7 +20,7 @@ interface PurchaseContext {
 
 export type PurchaseEvents =
     | { type: 'address' }
-    | { type: 'select_shipping' }
+    | { type: 'shipping' }
     | { type: 'select_payment' }
     | { type: 'skip_payment' }
     | { type: 'complete' };
@@ -30,20 +30,20 @@ const purchaseMachine = setup({
         events: PurchaseEvents;
     },
 }).createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QBcD2UoBswDoDGAhgE7IDEBEERcsA2gAwC6ioADqrAJbKeoB2LEAA9EANnoBOHACYAzABZZAdgCsAGhABPRNPoBGHKoC+RjWgzYcFarFiRSd7HmQB9WAAtOrVpz5QGzEgg7Fw8-IIiCOJScoqqGtoIABwGKiZm6Fi4Hl4+fm5gTsj2FFQ0AYIh3LwCQZHSijgqEsrqWoiy0tJN6SDmWTg53r5QBUX2jmDOLqwEmgC2YHzIFUFVYbWg9Y3NrQmI8vJSoienZydKvf2WswtLrpPOJZQ2dEyVHNXhdWKSMgp7doIQ6yGRpUx9TI3OaLZZjKbFCCkPCoeasbDFVZsT4bCK-GIA+JAo6g4y9PioCBwQTXMAfUI1PEIAC0on2LNEOHo3O5SlEen5EmkElEVyhuEIJHpX02wgOEno-zibUSum60nBGQsuGsNEg0txPwQShFXNEGvZumOYu1g08w3yj0RBsZRvk0nZCpwrRtA1usIehQR+rWONdWwOXRwegtxJUioF53OlwhtPwqPRYGdoYZ3wjxtN9HNKvl8jBJhMQA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcCuAnAxgCwIazAFlccBLAOzADpNd0AXAYlwgnTlgG0AGAXURQB7WKXqlB5ASAAeiALQAmAKwKqARiUA2ZQBoQAT0RqFAXxN60WPAWJlKVFmw6RGsbKWTIKUHvyQhkYVFxSX9ZBEUATgBmKgB2TS1dAyNNaLMLDBx8IhJ3e0d2WAIIV3dPb041PyERMQkpcLklbipIhKSlPUMENTSMgKzrXLtqNw8vcigAfQIAGzBMehdCjl8pQLqQxvkAFm4ADnVO7sQFBTiBy2ybPIox8smZ+cXl0pel6eRcfQBbMHI9HW-k2wQaYXkCgOsQ02i6KQQCkiuyoSiuQxytnyDwm3lmAGsJi5gbUwaFQOE1FRokpYcketEFNx0VZMXd7OMKlMCUTSlUagEgvVyTIjLTqVDjPCGUyWTcRtiqN8-gD6DzPMS+BshdsIb0DkoqEzolLTgglDS5cMsfclT9-oDZmAFksVqwilwtSCdeCKXtNHFqaaEdE4szzINWbdRnaVY6Pm9GJhBL9kAtliTBVtfaKIspItTaScERbYmiBuRBBA4BsMdHsdrsyKmkWg-T5BpDeXMlGFbbaAxG2SdnmWsc4Wa5JoDla2THVsVIEPhSPFFoqNw4gdgz01NxVN3I-KbRzHniE0vvU3V1DYpELTuzhdZ-XbZynurkJfSSu9YoUWGJrtoiz4Rtc1rstQyoOmqsCEhqEDLrqfq9NEBaHEoMRxNKiC7CaqIvn29jQaqToum8SE5k0UIogoe5YThCB4VSh7gXOirJqm6bflmw5-lCrQYQxZraLEyhmGYQA */
     id: 'purchaseMachine',
     context: {
         products: [
             {
                 id: 0,
                 name: 'wiadro',
-                price: 6,
+                price: 10,
                 isShippingRequired: true,
             },
             {
                 id: 1,
                 name: 'Emi - audiobook',
-                price: 100,
+                price: 0,
                 isShippingRequired: false,
             },
         ],
@@ -60,16 +60,52 @@ const purchaseMachine = setup({
                 address: 'addressed',
             },
         },
+
         addressed: {
-            on: { select_shipping: 'shipping_selected' },
+            on: {
+                shipping: [
+                    {
+                        guard: ({ context }) =>
+                            context.products.some(
+                                (product) => product.isShippingRequired
+                            ),
+                        target: 'shipping_selected',
+                    },
+                    {
+                        target: 'shipping_skipped',
+                    },
+                ],
+            },
         },
+
         shipping_selected: {
             on: { address: 'addressed', select_payment: 'payment_selected' },
         },
+
+        shipping_skipped: {
+            always: [
+                {
+                    guard: ({ context }) =>
+                        context.products.some((product) => product.price > 0),
+                    target: 'payment_selected',
+                },
+                { target: 'payment_skipped' },
+            ],
+        },
+
+        payment_skipped: {
+            always: {
+                target: 'completed',
+            },
+        },
+
         payment_selected: {
             on: { address: 'addressed', complete: 'completed' },
         },
-        completed: {},
+
+        completed: {
+            type: 'final',
+        },
     },
 });
 

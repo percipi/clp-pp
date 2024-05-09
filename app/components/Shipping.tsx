@@ -23,13 +23,6 @@ const Shipping = ({ send }: Props) => {
                 </button>
                 <button
                     className="btn"
-                    disabled
-                    onClick={() => send({ type: 'skip_payment' })}
-                >
-                    Skip payment
-                </button>
-                <button
-                    className="btn"
                     onClick={() => send({ type: 'select_payment' })}
                 >
                     Go to payment
