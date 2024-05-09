@@ -18,7 +18,12 @@ export default function Home() {
                     send={send}
                 />
             )}
-            {state.value === 'addressed' && <Addressed send={send} />}
+            {state.value === 'addressed' && (
+                <Addressed
+                    address={state.context.address}
+                    send={send}
+                />
+            )}
             {state.value === 'shipping_selected' && <Shipping send={send} />}
             {state.value === 'payment_selected' && (
                 <section>

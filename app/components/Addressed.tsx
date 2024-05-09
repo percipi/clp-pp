@@ -1,18 +1,19 @@
 import React from 'react';
-import { PurchaseEvents } from '../machines/purchaseMachine';
+import { Address, PurchaseEvents } from '../machines/purchaseMachine';
 
 interface Props {
     send: (event: PurchaseEvents) => void;
+    address: Address;
 }
 
-const Addressed = ({ send }: Props) => {
+const Addressed = ({ send, address }: Props) => {
     return (
         <section>
             <h2>Address</h2>
             <ul>
-                <li>ul. Krakowska 45/5</li>
-                <li>61-893 Poznań</li>
-                <li>Polska</li>
+                <li>Street: {address.street}</li>
+                <li>City: {address.city}</li>
+                <li>Country: {address.country}</li>
             </ul>
             <div className="flex gap-5">
                 <button

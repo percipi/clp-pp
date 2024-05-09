@@ -1,6 +1,6 @@
 import { assign, setup } from 'xstate';
 
-interface Address {
+export interface Address {
     street: string;
     city: string;
     country: string;
@@ -47,6 +47,11 @@ const purchaseMachine = setup({
                 isShippingRequired: false,
             },
         ],
+        address: {
+            street: 'ul. Krakowska 45/5',
+            city: 'Poznań',
+            country: 'Polska',
+        },
     } as PurchaseContext,
     initial: 'cart',
     states: {
