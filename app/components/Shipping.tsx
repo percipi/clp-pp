@@ -1,8 +1,8 @@
 import React from 'react';
-import { PurchaseMachineEvents } from '../machines/purchaseMachine';
+import { PurchaseEvents } from '../machines/purchaseMachine';
 
 interface Props {
-    send: (event: PurchaseMachineEvents) => void;
+    send: (event: PurchaseEvents) => void;
 }
 
 const Shipping = ({ send }: Props) => {

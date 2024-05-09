@@ -3,6 +3,7 @@
 import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
 import Shipping from './components/Shipping';
+import Addressed from './components/Addressed';
 
 export default function Home() {
     const [state, send] = useMachine(purchaseMachine);
@@ -26,31 +27,7 @@ export default function Home() {
                     </button>
                 </section>
             )}
-            {state.value === 'adressed' && (
-                <section>
-                    <h2>Address</h2>
-                    <ul>
-                        <li>ul. Krakowska 45/5</li>
-                        <li>61-893 Poznań</li>
-                        <li>Polska</li>
-                    </ul>
-                    <div className="flex gap-5">
-                        <button
-                            className="btn"
-                            disabled
-                            onClick={() => send({ type: 'select_shipping' })}
-                        >
-                            Skip shipping
-                        </button>
-                        <button
-                            className="btn"
-                            onClick={() => send({ type: 'select_shipping' })}
-                        >
-                            Go to shipping
-                        </button>
-                    </div>
-                </section>
-            )}
+            {state.value === 'adressed' && <Addressed send={send} />}
             {state.value === 'shipping_selected' && <Shipping send={send} />}
             {state.value === 'payment_selected' && (
                 <section>
