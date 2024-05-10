@@ -25,6 +25,9 @@ export type PurchaseEvents =
     | { type: 'skip_payment' }
     | { type: 'add_product'; value: Omit<Product, 'id'> }
     | { type: 'delete_product'; value: number }
+    | { type: 'change_street'; value: string }
+    | { type: 'change_city'; value: string }
+    | { type: 'change_country'; value: string }
     | { type: 'complete' };
 const purchaseMachine = setup({
     types: {} as {
@@ -37,12 +40,12 @@ const purchaseMachine = setup({
     context: {
         products: [],
         address: {
-            street: 'ul. Krakowska 45/5',
-            city: 'Poznań',
+            street: '',
+            city: '',
             country: 'Polska',
         },
     } as PurchaseContext,
-    initial: 'cart',
+    initial: 'addressed',
     states: {
         cart: {
             on: {
@@ -77,6 +80,27 @@ const purchaseMachine = setup({
 
         addressed: {
             on: {
+                change_street: {
+                    actions: assign({
+                        address: ({ event, context }) => {
+                            return { ...context.address, street: event.value };
+                        },
+                    }),
+                },
+                change_city: {
+                    actions: assign({
+                        address: ({ event, context }) => {
+                            return { ...context.address, city: event.value };
+                        },
+                    }),
+                },
+                change_country: {
+                    actions: assign({
+                        address: ({ event, context }) => {
+                            return { ...context.address, country: event.value };
+                        },
+                    }),
+                },
                 shipping: [
                     {
                         guard: ({ context }) =>

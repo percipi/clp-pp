@@ -12,11 +12,6 @@ const AddProduct = ({ send }: Props) => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        console.log(nameRef.current!.value);
-        console.log(priceRef.current!.value);
-        console.log(shippingRef.current!.checked);
-
         send({
             type: 'add_product',
             value: {

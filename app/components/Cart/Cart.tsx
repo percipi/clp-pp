@@ -18,15 +18,14 @@ const Cart = () => {
                 <ProductList />
                 <AddProduct send={send} />
             </div>
-            <nav btm-nav>
-                <button
-                    className="btn btn-primary"
-                    onClick={() => send({ type: 'address' })}
-                    disabled={!products.length}
-                >
-                    Next
-                </button>
-            </nav>
+
+            <button
+                className="btn btn-primary"
+                onClick={() => send({ type: 'address' })}
+                disabled={!products.length}
+            >
+                Next
+            </button>
         </>
     );
 };

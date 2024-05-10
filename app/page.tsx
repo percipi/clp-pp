@@ -3,7 +3,7 @@
 import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
 import Shipping from './components/Shipping';
-import AddressStep from './components/AddressStep';
+import AddressStep from './components/AddressStep/AddressStep';
 import Cart from './components/Cart/Cart';
 import { PurchaseMachineContext } from './PurchaseMachineContext';
 
