@@ -6,7 +6,7 @@ interface Props {
     address: Address;
 }
 
-const Addressed = ({ send, address }: Props) => {
+const AddressStep = ({ send, address }: Props) => {
     return (
         <section>
             <h2>Address</h2>
@@ -27,4 +27,4 @@ const Addressed = ({ send, address }: Props) => {
     );
 };
 
-export default Addressed;
+export default AddressStep;

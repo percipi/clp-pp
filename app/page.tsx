@@ -3,7 +3,7 @@
 import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
 import Shipping from './components/Shipping';
-import Addressed from './components/Addressed';
+import AddressStep from './components/AddressStep';
 import Cart from './components/Cart/Cart';
 import { PurchaseMachineContext } from './PurchaseMachineContext';
 
@@ -14,22 +14,17 @@ export default function Home() {
         <PurchaseMachineContext.Provider value={{ state, send }}>
             <main className="container w-full">
                 <h1>purchasing process</h1>
-                {state.value === 'cart' && ( // TODO change to matches
-                    <Cart
-                    // products={state.context.products}
-                    // send={send}
-                    />
+                {state.matches('cart') && ( // TODO change to matches
+                    <Cart />
                 )}
-                {state.value === 'addressed' && (
-                    <Addressed
+                {state.matches('addressed') && (
+                    <AddressStep
                         address={state.context.address}
                         send={send}
                     />
                 )}
-                {state.value === 'shipping_selected' && (
-                    <Shipping send={send} />
-                )}
-                {state.value === 'payment_selected' && (
+                {state.matches('shipping_selected') && <Shipping send={send} />}
+                {state.matches('payment_selected') && (
                     <section>
                         <h2>Payment</h2>
                         <p>Choose payment type:</p>
@@ -53,7 +48,7 @@ export default function Home() {
                         </div>
                     </section>
                 )}
-                {state.value === 'completed' && (
+                {state.matches('completed') && (
                     <section>
                         <h2>Completed</h2>
                         <p>Products</p>
