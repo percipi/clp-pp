@@ -45,7 +45,7 @@ const purchaseMachine = setup({
             country: 'Polska',
         },
     } as PurchaseContext,
-    initial: 'addressed',
+    initial: 'cart',
     states: {
         cart: {
             on: {

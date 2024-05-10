@@ -6,6 +6,7 @@ import Shipping from './components/Shipping';
 import AddressStep from './components/AddressStep/AddressStep';
 import Cart from './components/Cart/Cart';
 import { PurchaseMachineContext } from './PurchaseMachineContext';
+import CompletedStep from './components/CompletedStep/CompletedStep';
 
 export default function Home() {
     const [state, send] = useMachine(purchaseMachine);
@@ -17,12 +18,7 @@ export default function Home() {
                 {state.matches('cart') && ( // TODO change to matches
                     <Cart />
                 )}
-                {state.matches('addressed') && (
-                    <AddressStep
-                        address={state.context.address}
-                        send={send}
-                    />
-                )}
+                {state.matches('addressed') && <AddressStep />}
                 {state.matches('shipping_selected') && <Shipping send={send} />}
                 {state.matches('payment_selected') && (
                     <section>
@@ -48,27 +44,7 @@ export default function Home() {
                         </div>
                     </section>
                 )}
-                {state.matches('completed') && (
-                    <section>
-                        <h2>Completed</h2>
-                        <p>Products</p>
-                        <ul>
-                            <li>Product 1</li>
-                            <li>Product 2</li>
-                            <li>...</li>
-                        </ul>
-                        <p>Payment: Blik</p>
-                        <p>Shipment: UDP</p>
-                        <div className="flex gap-5">
-                            <button
-                                className="btn"
-                                onClick={() => send({ type: 'address' })}
-                            >
-                                Send?
-                            </button>
-                        </div>
-                    </section>
-                )}
+                {state.matches('completed') && <CompletedStep />}
             </main>
         </PurchaseMachineContext.Provider>
     );
