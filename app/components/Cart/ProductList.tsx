@@ -8,16 +8,36 @@ interface Props {
 
 const ProductList = ({ products }: Props) => {
     return (
-        <section className="my-10">
+        <section className="w-full my-10">
             <h3>Products</h3>
-            <ul>
-                {products.map((product) => (
-                    <li key={product.id}>
-                        {product.name} | Price: {product.price}$ | Requires
-                        shipping: {product.isShippingRequired ? 'YES' : 'NO'}
-                    </li>
-                ))}
-            </ul>
+            <div className="overflow-x-auto h-96">
+                <table className="table table-zebra table-pin-rows">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Shipping required</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.map((product) => (
+                            <tr key={product.id}>
+                                <td>{product.name}</td>
+                                <td>{product.price}</td>
+                                <td>
+                                    {product.isShippingRequired ? 'YES' : 'NO'}
+                                </td>
+                                <td>
+                                    <button className="btn btn-warning">
+                                        DELETE
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </section>
     );
 };

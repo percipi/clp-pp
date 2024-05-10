@@ -10,7 +10,7 @@ export default function Home() {
     const [state, send] = useMachine(purchaseMachine);
 
     return (
-        <main className="prose">
+        <main className="container w-full">
             <h1>purchasing process</h1>
             {state.value === 'cart' && ( // TODO change to matches
                 <Cart

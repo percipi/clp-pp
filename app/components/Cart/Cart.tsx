@@ -10,17 +10,21 @@ interface Props {
 
 const Cart = ({ send, products }: Props) => {
     return (
-        <section>
+        <>
             <h2>Cart</h2>
-            <ProductList products={products} />
-            <AddProduct send={send} />
-            <button
-                className="btn btn-primary"
-                onClick={() => send({ type: 'address' })}
-            >
-                Next
-            </button>
-        </section>
+            <div className="flex gap-10">
+                <ProductList products={products} />
+                <AddProduct send={send} />
+            </div>
+            <nav btm-nav>
+                <button
+                    className="btn btn-primary"
+                    onClick={() => send({ type: 'address' })}
+                >
+                    Next
+                </button>
+            </nav>
+        </>
     );
 };
 

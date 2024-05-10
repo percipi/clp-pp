@@ -28,7 +28,7 @@ const AddProduct = ({ send }: Props) => {
     };
 
     return (
-        <section className="my-10 w-80">
+        <section className="my-10 min-w-80">
             <h3>Add product</h3>
             <form
                 onSubmit={handleSubmit}
