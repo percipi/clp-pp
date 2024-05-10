@@ -4,7 +4,12 @@ import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
 
 const Cart = () => {
-    const { send } = useContext(PurchaseMachineContext);
+    const {
+        state: {
+            context: { products },
+        },
+        send,
+    } = useContext(PurchaseMachineContext);
 
     return (
         <>
@@ -17,6 +22,7 @@ const Cart = () => {
                 <button
                     className="btn btn-primary"
                     onClick={() => send({ type: 'address' })}
+                    disabled={!products.length}
                 >
                     Next
                 </button>
