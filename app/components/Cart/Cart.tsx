@@ -1,19 +1,16 @@
-import React from 'react';
-import { Product, PurchaseEvents } from '../../machines/purchaseMachine';
+import React, { useContext } from 'react';
 import AddProduct from './AddProduct';
 import ProductList from './ProductList';
+import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
 
-interface Props {
-    send: (event: PurchaseEvents) => void;
-    products: Product[];
-}
+const Cart = () => {
+    const { send } = useContext(PurchaseMachineContext);
 
-const Cart = ({ send, products }: Props) => {
     return (
         <>
             <h2>Cart</h2>
             <div className="flex gap-10">
-                <ProductList products={products} />
+                <ProductList />
                 <AddProduct send={send} />
             </div>
             <nav btm-nav>

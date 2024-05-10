@@ -1,43 +1,65 @@
-import { Product, purchaseMachine } from '@/app/machines/purchaseMachine';
-import { useMachine } from '@xstate/react';
-import React from 'react';
+import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
+import React, { useContext } from 'react';
 
-interface Props {
-    products: Product[];
-}
+const ProductList = () => {
+    const {
+        state: {
+            context: { products },
+        },
+        send,
+    } = useContext(PurchaseMachineContext);
 
-const ProductList = ({ products }: Props) => {
     return (
-        <section className="w-full my-10">
+        <section className="w-full my-10 ">
             <h3>Products</h3>
-            <div className="overflow-x-auto h-96">
-                <table className="table table-zebra table-pin-rows">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Shipping required</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map((product) => (
-                            <tr key={product.id}>
-                                <td>{product.name}</td>
-                                <td>{product.price}</td>
-                                <td>
-                                    {product.isShippingRequired ? 'YES' : 'NO'}
-                                </td>
-                                <td>
-                                    <button className="btn btn-warning">
-                                        DELETE
-                                    </button>
-                                </td>
+
+            {products.length > 0 ? (
+                <div
+                    className="overflow-x-auto h-96"
+                    style={{ scrollbarGutter: 'stable' }}
+                >
+                    <table className="table table-zebra table-pin-rows">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Shipping required</th>
+                                <th>Remove</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {products.map((product) => (
+                                <tr key={product.id}>
+                                    <td>{product.id}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.price}</td>
+                                    <td>
+                                        {product.isShippingRequired
+                                            ? 'YES'
+                                            : 'NO'}
+                                    </td>
+                                    <td>
+                                        <button
+                                            onClick={() =>
+                                                send({
+                                                    type: 'delete_product',
+                                                    value: product.id,
+                                                })
+                                            }
+                                            className="btn btn-warning"
+                                        >
+                                            DELETE
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <span>Cart is empty</span>
+            )}
         </section>
     );
 };

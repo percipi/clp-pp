@@ -13,7 +13,7 @@ export interface Product {
     isShippingRequired: boolean;
 }
 
-interface PurchaseContext {
+export interface PurchaseContext {
     address: Address;
     products: Product[];
 }
@@ -24,6 +24,7 @@ export type PurchaseEvents =
     | { type: 'select_payment' }
     | { type: 'skip_payment' }
     | { type: 'add_product'; value: Omit<Product, 'id'> }
+    | { type: 'delete_product'; value: number }
     | { type: 'complete' };
 const purchaseMachine = setup({
     types: {} as {
@@ -47,7 +48,6 @@ const purchaseMachine = setup({
             on: {
                 address: 'addressed',
                 add_product: {
-                    //target: 'cart',
                     actions: assign({
                         products: ({ event, context }) => {
                             return [
@@ -60,6 +60,15 @@ const purchaseMachine = setup({
                                     ...event.value,
                                 },
                             ];
+                        },
+                    }),
+                },
+                delete_product: {
+                    actions: assign({
+                        products: ({ event, context }) => {
+                            return context.products.filter(
+                                (product) => product.id !== event.value
+                            );
                         },
                     }),
                 },
