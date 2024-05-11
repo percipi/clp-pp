@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 const CompletedStep = () => {
     const {
         state: { context },
+        send,
     } = useContext(PurchaseMachineContext);
     const {
         products,
@@ -54,9 +55,9 @@ const CompletedStep = () => {
             <div className="flex gap-5">
                 <button
                     className="btn"
-                    onClick={() => console.log(context)}
+                    onClick={() => send({ type: 'finalize_purchase' })}
                 >
-                    Send?
+                    Finalize purchase
                 </button>
             </div>
         </>

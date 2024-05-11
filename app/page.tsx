@@ -7,6 +7,9 @@ import AddressStep from './components/AddressStep/AddressStep';
 import Cart from './components/Cart/Cart';
 import { PurchaseMachineContext } from './PurchaseMachineContext';
 import CompletedStep from './components/CompletedStep/CompletedStep';
+import FinalizingStep from './components/FinalizingStep/FinalizingStep';
+import FinalizedStep from './components/FinalizedStep/FinalizedStep';
+import FinalizingFailedStep from './components/FinalizingFailedStep/FinalizingFailedStep';
 
 export default function Home() {
     const [state, send] = useMachine(purchaseMachine);
@@ -45,6 +48,9 @@ export default function Home() {
                     </section>
                 )}
                 {state.matches('completed') && <CompletedStep />}
+                {state.matches('finalizing_purchase') && <FinalizingStep />}
+                {state.matches('purchase_finalized') && <FinalizedStep />}
+                {state.matches('finalizing_failed') && <FinalizingFailedStep />}
             </main>
         </PurchaseMachineContext.Provider>
     );
