@@ -18,7 +18,10 @@ const AddressForm = ({
             <h3>Shipping address</h3>
             <form
                 id={id}
-                onSubmit={() => send({ type: 'shipping' })}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    send({ type: 'shipping' });
+                }}
             >
                 <div className="form-control">
                     <label

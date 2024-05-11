@@ -22,6 +22,7 @@ export interface PurchaseContext {
 export type PurchaseEvents =
     | { type: 'address' }
     | { type: 'shipping' }
+    | { type: 'payment' }
     | { type: 'select_payment' }
     | { type: 'skip_payment' }
     | { type: 'add_product'; value: Omit<Product, 'id'> }
@@ -43,8 +44,14 @@ const purchaseMachine = setup({
             }
         ),
     },
+    guards: {
+        isProductWithShippingRequiredInCart: ({ context }) =>
+            context.products.some((product) => product.isShippingRequired),
+        isPayableProductInCart: ({ context }) =>
+            context.products.some((product) => product.price > 0),
+    },
 }).createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QAcCuAnAxgCwIazAFlccBLAOzADpNd0AXAYlwgnTlgG0AGAXURQB7WKXqlB5ASAAeiALQAmAKwKqARiUA2ZQBoQAT0RqFAXxN60WPAWJlKNOkxYQA+snSCIqTPR78kIMjCouKSAbIIACwAnFTc0QoAzAAc0ZpqyYmaStyaeoZRaurciQDs0WmJamVKiUpmFhg4+EQk2BTUtAyMEGAANmD0YG4eXj5+UkEiYhJSEZHcVArJpaXcpalqmsm5pfnySkXRpQoKCxkKapGJ0ZENgU3WrXbUzuywBBCMzeQwLrD0diDCYBKYhWbheSaTSlJZqaJaZLLTQJZJ5AzyNTVKgbFYZLLceFoxL3SzNGxtDpUN4cSDfPC-YaYUT6EFCaahOZQpSxLaRZJI1ZaBL7BByNSLE7ZJTJSJKLTrRKRTSkx4tWztew0j50n5-TCCVDkQGsviTYIzMKgCJyGGROLcNEKUoZbby9EFRQKRaJEry6IChTRdb81VWdWUrWsd6fRiwdrIZAUKBswIWzmQsVBxI47LaJSirYk8wPcMUl7U6O0r7x0iJ5OcNT+dngq0yA6LY553QYhBFsPk56a6i1+u-f79MA+Onarhm0HpiHW+QLZLqLQ9gqnUoDp4aqmjpPjggDac1yc+Ny4fQAWzAxtTYMtXKzmXX+dFQft9RLZL3kZHBMjygf4AGs62QOlH0XNsIiKOoNA-XtEm9XcIwrQ9kzAiCoKbc0OSXds+0OKgUOSYwC2Q1DfzVcthyoZBrzvY1sMTKD5xbZ9MwyJQlhKCjRVqH9GjLIcqUY2973oCdTyGL5Z2ggjYJXGFSIE5C1jQujxKYqSZKnOTvkEG9kAGIZFNbF9FB5UjDg3SiClqHNhNLQd93sA0TLMukADMKFwPpSAAL2GP8Wgsrjl1fWJLniGpRRRFywu0+w-PIALgqw5KwB6CRqAoAA3QRQOobL3OoNKMqCrLaLABBCsEWhLT8CKMyiuQeVhBzEFRHEktq8qqEqwLqvHbLGDAdAPHQBi+lwegfMEdAbwYgaAKG-yRpq0T6vIIqmtCFqOLTJSrO0KhuoQaIUIuswS3ITw4EmNaXnwyzMzkE5VG4R1tBdNFkndUU5F9WEdjqGFDiSbhvTuGjRMGrp6DeyKiOsxZEM3KFki0sSozYasUbatHlE0OINnUgoJVUfqEfWzDjwvOSicIm1lhzBEqixhBt1xwaGZA2BwLYiAWeUrN7TWLnLt5+G3PWiTmOkoWcNFhdTu4m44kB67Sku64ilp+WK0VvSTwMyAxas5Z7Vi3X9aqW65f-CtPNMwZLfV972uWRZHR5eLe20HNlD59bhsysbaqtj6v1s+3RVWVQ9bDisI9GkCfNwUgBjVzjiZtNRYW7eUdlqUpfXWQt1jXI2Xfo7KXHTz389Zg46iWGU-tdQGtGripO5+7RNB+hINjukwgA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcCuAnAxgCwIazAFlccBLAOzADpNd0AXAYlwgnTlgG0AGAXURQB7WKXqlB5ASAAeiALQAmAKwKqARiUA2ZQBoQAT0RqFAXxN60WPAWJlKNOkxYQA+snSCIqTPR78kIMjCouKSAbIIACwAnFTc0QoAzAAc0ZpqyYmaStyaeoZRaurciQDs0WmJamVKiUpmFhg4+EQk2BTUtAyMEGAANmD0YG4eXj5+UkEiYhJSEWrc3FQKyaWl3KWpaprJuaX58grKVNGlR5HcGQpqkYnRiQ2BTdatdtTO7LAEEIzN5DAuWD0diDCYBKYhWbheSaTSlZZqaJaZIrTQJZJ5AzyNTVKibVYZLKXaIYh7mJ5WFq2dr2D4cSC-PD-YaYUT6MFCaahOYwpSxbaRZIotZaBIHBByBZ4hTZJTJSJKLQbRKRTSPSzNGxtDpUOlfBl-AGYQSocjA9l8SbBGZhUARORwyJxbgYhSlDI7RWYgqKBRLRIlRUklHRDaC9XPKna2msT7fRiwdrIZAUKAcwLW7nQiUXJRURLKVYXP2aBWrcXbMmNSlat662P0n6J0jJ1OcNT+TmQ20yRBZKgxUpVcrrdaZSIVzRVima1406jN1v-QH9MA+Bl6riW8GZqF2+QxJ0abRKcVHUoRmtznWLlPLggDddN1c+Ny4fQAWzAZvTEJtPIlO54QWDQ+UybgVGiNRxQDWIhwFI5FgWF1L1nakbyTO8oBXR8hmfXC30-b9fA7K0uT3XsEGUCcsQQWC8SqUtEMuRZklQl50PsW9U0BABrFtkA3Bsvl-Xce3tbJkjPHZ2KjOtuPvfjkwZZB3y-H9ty7f9s0leJ1E0FiFFuXMlDWGDSjzd0Ugue45URDFZNrecqAU7DYCUwSflUoif1IndyPExBIlVczLOqXZrgqCzcjVckNQ46NqG89T6D4gShLYDhRICgC5CHbhxVVJZ0gxOVlBKTZHOvexkuItLlJ+Y0P2QAYhmy7sAJC2i5Tzeo4sjJydVqs0cLXPDmGErdOwzHKdL5RJ82MU9aKyWLqzQxKqGG1KHzGg1BGa1qwHa7T9wlN14TqY9dG6xIFr69aErrJqWsGBkADMKFwPpSAAL2GeKWhOrMzsUVIEXiGpxTRB6Zye5zPvIb6-p4wGCB6CRqAoAA3QReKSgbquoRHkd+1HCYQHHBFoG0-GBij7T5eFloKdE8VhtGiaoEmfrJ5dOcYMB0A8dAtr6XB6HewR0A-LbCc44mvt58mr0p8hcZp0I6c0maOp07QqBZxB7lUPryXITw4EmeXErIvXQbWKTaLkKoFsiM4jMuFEbjuadOYVhwGDt07KMUHJ1C0G6fRk-qrwDzdIGDkHQ+UTQ4k2JaK24U2qoD1zRqfJOGcOcGdmiv0znmqPEHPXPNvz9z0ogIvAoQM48QyCy+W2D2sjPFRnQyKDbjqJQ1Asuu622+rPJbgCjOWUp0lHhCAxogoiqoErJPKso2Njjap7UurdsL-z7ZT+UIfuCzCqqQ3J+cl6jub8+Q-tFYlhdebb9o7QFuUI-HUPMUb80JnPHSChohOjqDfI2bd24TwPvDYBStQHYXergUgAxX5aWTvaceW9I6Kl2LUfKGws6bAfsguSzlOYuBAf9XBut37yFqHmQs2h3QYmSF6LOFRlg5FyDKRYCRKpmBMEAA */
     id: 'purchaseMachine',
     context: {
         products: [],
@@ -112,10 +119,7 @@ const purchaseMachine = setup({
                 },
                 shipping: [
                     {
-                        guard: ({ context }) =>
-                            context.products.some(
-                                (product) => product.isShippingRequired
-                            ),
+                        guard: 'isProductWithShippingRequiredInCart',
                         target: 'shipping_selected',
                     },
                     {
@@ -126,24 +130,35 @@ const purchaseMachine = setup({
         },
 
         shipping_selected: {
-            on: { address: 'addressed', select_payment: 'payment_selected' },
+            tags: ['shipping'],
+            on: {
+                address: 'addressed',
+                select_payment: [
+                    {
+                        guard: 'isPayableProductInCart',
+                        target: 'payment_selected',
+                    },
+                    { target: 'payment_skipped' },
+                ],
+            },
         },
 
         shipping_skipped: {
-            always: [
-                {
-                    guard: ({ context }) =>
-                        context.products.some((product) => product.price > 0),
-                    target: 'payment_selected',
-                },
-                { target: 'payment_skipped' },
-            ],
+            tags: ['shipping'],
+            on: {
+                address: 'addressed',
+                payment: [
+                    {
+                        guard: 'isPayableProductInCart',
+                        target: 'payment_selected',
+                    },
+                    { target: 'payment_skipped' },
+                ],
+            },
         },
 
         payment_skipped: {
-            always: {
-                target: 'completed',
-            },
+            on: { address: 'addressed', complete: 'completed' },
         },
 
         payment_selected: {

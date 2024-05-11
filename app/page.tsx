@@ -2,7 +2,7 @@
 
 import { useMachine } from '@xstate/react';
 import { purchaseMachine } from './machines/purchaseMachine';
-import Shipping from './components/Shipping';
+import Shipping from './components/ShippingStep/Shipping';
 import AddressStep from './components/AddressStep/AddressStep';
 import Cart from './components/Cart/Cart';
 import { PurchaseMachineContext } from './PurchaseMachineContext';
@@ -22,7 +22,7 @@ export default function Home() {
                     <Cart />
                 )}
                 {state.matches('addressed') && <AddressStep />}
-                {state.matches('shipping_selected') && <Shipping send={send} />}
+                {state.hasTag('shipping') && <Shipping />}
                 {state.matches('payment_selected') && (
                     <section>
                         <h2>Payment</h2>
