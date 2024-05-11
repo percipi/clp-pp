@@ -133,7 +133,7 @@ const purchaseMachine = setup({
             tags: ['shipping'],
             on: {
                 address: 'addressed',
-                select_payment: [
+                payment: [
                     {
                         guard: 'isPayableProductInCart',
                         target: 'payment_selected',

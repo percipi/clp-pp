@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AddProduct from './AddProduct';
 import ProductList from './ProductList';
-import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
+import { PurchaseMachineContext } from '@/app/page';
 
 const Cart = () => {
-    const {
-        state: {
-            context: { products },
-        },
-        send,
-    } = useContext(PurchaseMachineContext);
+    const products = PurchaseMachineContext.useSelector(
+        (state) => state.context.products
+    );
+    const { send } = PurchaseMachineContext.useActorRef();
 
     return (
         <>

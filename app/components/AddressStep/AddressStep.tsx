@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AddressForm from './AddressForm';
-import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
+import { PurchaseMachineContext } from '@/app/page';
 
 const ADDRESS_FORM_ID = 'address-form';
 
 const AddressStep = () => {
-    const {
-        state: {
-            context: { address },
-        },
-        send,
-    } = useContext(PurchaseMachineContext);
+    const address = PurchaseMachineContext.useSelector(
+        (state) => state.context.address
+    );
+    const { send } = PurchaseMachineContext.useActorRef();
 
     return (
         <section>

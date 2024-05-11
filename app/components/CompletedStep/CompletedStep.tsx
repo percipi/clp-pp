@@ -1,15 +1,12 @@
-import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
-import React, { useContext } from 'react';
+import { PurchaseMachineContext } from '@/app/page';
+import React from 'react';
 
 const CompletedStep = () => {
     const {
-        state: { context },
-        send,
-    } = useContext(PurchaseMachineContext);
-    const {
         products,
         address: { street, city, country },
-    } = context;
+    } = PurchaseMachineContext.useSelector((state) => state.context);
+    const { send } = PurchaseMachineContext.useActorRef();
     return (
         <>
             <h2>Completed</h2>

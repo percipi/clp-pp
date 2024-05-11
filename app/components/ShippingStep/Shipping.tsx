@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { PurchaseEvents } from '../../machines/purchaseMachine';
-import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
+import React from 'react';
+import { PurchaseMachineContext } from '@/app/page';
 
 const Shipping = () => {
-    const { state, send } = useContext(PurchaseMachineContext);
+    const state = PurchaseMachineContext.useSelector((state) => state);
+    const { send } = PurchaseMachineContext.useActorRef();
     return (
         <section>
             <h2>Shipping</h2>
@@ -27,7 +27,7 @@ const Shipping = () => {
                 </button>
                 <button
                     className="btn"
-                    onClick={() => send({ type: 'select_payment' })}
+                    onClick={() => send({ type: 'payment' })}
                 >
                     Go to payment
                 </button>

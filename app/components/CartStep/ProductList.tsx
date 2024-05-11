@@ -1,13 +1,11 @@
-import { PurchaseMachineContext } from '@/app/PurchaseMachineContext';
-import React, { useContext } from 'react';
+import { PurchaseMachineContext } from '@/app/page';
+import React from 'react';
 
 const ProductList = () => {
-    const {
-        state: {
-            context: { products },
-        },
-        send,
-    } = useContext(PurchaseMachineContext);
+    const products = PurchaseMachineContext.useSelector(
+        (state) => state.context.products
+    );
+    const { send } = PurchaseMachineContext.useActorRef();
 
     return (
         <section className="w-full my-10 ">
