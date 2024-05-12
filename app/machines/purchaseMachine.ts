@@ -11,6 +11,12 @@ export enum SHIPPING {
     WORLDWIDE_DELIVERY = 'Worldwide Delivery',
 }
 
+export enum PAYMENTS {
+    PAYPAL = 'PayPal',
+    BANK_TRANSACTION = 'Bank Transaction',
+    PAY_ANYWHERE = 'Pay Anywhere',
+}
+
 export interface Address {
     street: string;
     city: string;
@@ -28,6 +34,7 @@ export interface PurchaseContext {
     address: Address;
     products: Product[];
     shipping: '' | SHIPPING;
+    payment: '' | PAYMENTS;
 }
 
 export type PurchaseEvents =
@@ -42,6 +49,7 @@ export type PurchaseEvents =
     | { type: 'change_city'; value: string }
     | { type: 'change_country'; value: COUNTRIES }
     | { type: 'change_shipping'; value: SHIPPING }
+    | { type: 'change_payment'; value: PAYMENTS }
     | { type: 'complete' }
     | { type: 'finalize_purchase' };
 const purchaseMachine = setup({
@@ -73,6 +81,7 @@ const purchaseMachine = setup({
             country: '',
         },
         shipping: '',
+        payment: '',
     } as PurchaseContext,
     initial: 'cart',
     states: {
@@ -178,11 +187,26 @@ const purchaseMachine = setup({
         },
 
         payment_skipped: {
-            on: { address: 'addressed', complete: 'completed' },
+            tags: ['payment'],
+            on: {
+                address: 'addressed',
+                complete: 'completed',
+            },
         },
 
         payment_selected: {
-            on: { address: 'addressed', complete: 'completed' },
+            tags: ['payment'],
+            on: {
+                address: 'addressed',
+                complete: 'completed',
+                change_payment: {
+                    actions: assign({
+                        payment: ({ event }) => {
+                            return event.value;
+                        },
+                    }),
+                },
+            },
         },
 
         completed: {

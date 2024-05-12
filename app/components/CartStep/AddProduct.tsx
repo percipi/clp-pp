@@ -71,7 +71,7 @@ const AddProduct = ({ send }: Props) => {
                 />
             </label>
             <button
-                className="btn btn-secondary"
+                className="btn btn-secondary mt-3"
                 type="submit"
             >
                 Add

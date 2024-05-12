@@ -86,7 +86,10 @@ const AddressForm = ({
                     required
                 >
                     {['', ...Object.values(COUNTRIES)].map((country) => (
-                        <option value={country}>
+                        <option
+                            key={country}
+                            value={country}
+                        >
                             {country ? country : '--- Select your country ---'}
                         </option>
                     ))}

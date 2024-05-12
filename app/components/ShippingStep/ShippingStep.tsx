@@ -3,6 +3,8 @@ import { PurchaseMachineContext } from '@/app/page';
 import Step from '../Step';
 import { COUNTRIES, SHIPPING } from '@/app/machines/purchaseMachine';
 
+const SHIPPING_FORM_ID = 'address-form';
+
 type ShippingForCountry = {
     [key in COUNTRIES]: SHIPPING[];
 };
@@ -19,6 +21,7 @@ const ShippingStep = () => {
     const shippingMethods =
         country !== '' ? shippingMethodsForCountry[country] : [];
     const { send } = PurchaseMachineContext.useActorRef();
+
     return (
         <>
             <Step.Nav name="Shipping">
@@ -27,40 +30,59 @@ const ShippingStep = () => {
                         className="btn"
                         onClick={() => send({ type: 'address' })}
                     >
-                        Back to address
+                        Address
                     </button>
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => send({ type: 'payment' })}
-                    >
-                        Next
-                    </button>
+                    {state.matches('shipping_selected') ? (
+                        <button
+                            className="btn btn-primary"
+                            type="submit"
+                            form={SHIPPING_FORM_ID}
+                        >
+                            Next
+                        </button>
+                    ) : (
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => send({ type: 'payment' })}
+                        >
+                            Next
+                        </button>
+                    )}
                 </div>
             </Step.Nav>
             <Step.Body names={['Shipping method']}>
                 {state.matches('shipping_selected') ? (
-                    <select
-                        onChange={(e) =>
-                            send({
-                                type: 'change_shipping',
-                                value: e.target.value as SHIPPING,
-                            })
-                        }
-                        className="select select-bordered"
-                        id="shipping"
-                        value={shipping}
-                        required
+                    <form
+                        id={SHIPPING_FORM_ID}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            send({ type: 'payment' });
+                        }}
+                        className="form-control max-w-96"
                     >
-                        {['', ...shippingMethods].map((shipping) => (
-                            <option value={shipping}>
-                                {shipping
-                                    ? shipping
-                                    : '--- Select you shipping method ---'}
-                            </option>
-                        ))}
-                    </select>
+                        <select
+                            onChange={(e) =>
+                                send({
+                                    type: 'change_shipping',
+                                    value: e.target.value as SHIPPING,
+                                })
+                            }
+                            className="select select-bordered"
+                            id="shipping"
+                            value={shipping}
+                            required
+                        >
+                            {['', ...shippingMethods].map((shipping) => (
+                                <option value={shipping}>
+                                    {shipping
+                                        ? shipping
+                                        : '--- Select your shipping method ---'}
+                                </option>
+                            ))}
+                        </select>
+                    </form>
                 ) : (
-                    <p>No product in the cart requires shipping</p>
+                    <p>No product in the cart requires shipping.</p>
                 )}
             </Step.Body>
         </>
