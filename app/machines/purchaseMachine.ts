@@ -1,10 +1,20 @@
 import { assign, fromPromise, setup } from 'xstate';
 import { sendPurchase } from '../components/FinalizingStep/FinalizingStep';
 
+export enum COUNTRIES {
+    POLAND = 'Poland',
+    USA = 'USA',
+}
+
+export enum SHIPPING {
+    POLISH_EXPRESS = 'Polish Express',
+    WORLDWIDE_DELIVERY = 'Worldwide Delivery',
+}
+
 export interface Address {
     street: string;
     city: string;
-    country: string;
+    country: COUNTRIES | '';
 }
 
 export interface Product {
@@ -17,6 +27,7 @@ export interface Product {
 export interface PurchaseContext {
     address: Address;
     products: Product[];
+    shipping: '' | SHIPPING;
 }
 
 export type PurchaseEvents =
@@ -29,7 +40,8 @@ export type PurchaseEvents =
     | { type: 'delete_product'; value: number }
     | { type: 'change_street'; value: string }
     | { type: 'change_city'; value: string }
-    | { type: 'change_country'; value: string }
+    | { type: 'change_country'; value: COUNTRIES }
+    | { type: 'change_shipping'; value: SHIPPING }
     | { type: 'complete' }
     | { type: 'finalize_purchase' };
 const purchaseMachine = setup({
@@ -60,6 +72,7 @@ const purchaseMachine = setup({
             city: '',
             country: '',
         },
+        shipping: '',
     } as PurchaseContext,
     initial: 'cart',
     states: {
@@ -140,6 +153,13 @@ const purchaseMachine = setup({
                     },
                     { target: 'payment_skipped' },
                 ],
+                change_shipping: {
+                    actions: assign({
+                        shipping: ({ event }) => {
+                            return event.value;
+                        },
+                    }),
+                },
             },
         },
 

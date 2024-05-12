@@ -11,14 +11,11 @@ import { PurchaseMachineContext } from './page';
 
 const PurchaseProcessor = () => {
     const state = PurchaseMachineContext.useSelector((state) => state);
-    const { send } = PurchaseMachineContext.useActorRef();
 
     return (
         <main className="container mx-auto flex flex-col gap-5">
             <h1 className="bg-white p-3 m-0">purchasing process</h1>
-            {state.matches('cart') && ( // TODO change to matches
-                <CartStep />
-            )}
+            {state.matches('cart') && <CartStep />}
             {state.matches('addressed') && <AddressStep />}
             {state.hasTag('shipping') && <ShippingStep />}
             {state.matches('payment_selected') && <PaymentStep />}

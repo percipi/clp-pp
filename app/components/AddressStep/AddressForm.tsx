@@ -1,4 +1,8 @@
-import { Address, PurchaseEvents } from '@/app/machines/purchaseMachine';
+import {
+    Address,
+    COUNTRIES,
+    PurchaseEvents,
+} from '@/app/machines/purchaseMachine';
 
 import React from 'react';
 
@@ -73,7 +77,7 @@ const AddressForm = ({
                     onChange={(e) =>
                         send({
                             type: 'change_country',
-                            value: e.target.value,
+                            value: e.target.value as COUNTRIES,
                         })
                     }
                     className="select select-bordered"
@@ -81,9 +85,11 @@ const AddressForm = ({
                     value={country}
                     required
                 >
-                    <option value="">--- Select you country ---</option>
-                    <option value="Poland">Poland</option>
-                    <option value="USA">USA</option>
+                    {['', ...Object.values(COUNTRIES)].map((country) => (
+                        <option value={country}>
+                            {country ? country : '--- Select your country ---'}
+                        </option>
+                    ))}
                 </select>
             </label>
         </form>

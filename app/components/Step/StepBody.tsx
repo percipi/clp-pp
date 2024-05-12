@@ -12,13 +12,13 @@ const StepBody = ({ children, names }: PropsWithChildren<Props>) => {
             <div className="flex gap-5 items-start justify-between">
                 {childrenArray[0] && (
                     <section className="grow p-3 bg-white">
-                        <h3>{names[0]}</h3>
+                        <h3 className="mb-5">{names[0]}</h3>
                         {childrenArray[0]}
                     </section>
                 )}
                 {childrenArray[1] && (
                     <section className="p-3 bg-white">
-                        <h3>{names[1]}</h3>
+                        <h3 className="mb-5">{names[1]}</h3>
                         {childrenArray[1]}
                     </section>
                 )}
