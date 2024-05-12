@@ -2,10 +2,9 @@ import React from 'react';
 import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/page';
-import StepNav from '../StepNav';
-import StepBody from '../StepBody';
+import Step from '../Step';
 
-const Cart = () => {
+const CartStep = () => {
     const products = PurchaseMachineContext.useSelector(
         (state) => state.context.products
     );
@@ -13,7 +12,7 @@ const Cart = () => {
 
     return (
         <>
-            <StepNav name="Cart">
+            <Step.Nav name="Cart">
                 <button
                     className="btn btn-primary"
                     onClick={() => send({ type: 'address' })}
@@ -21,13 +20,13 @@ const Cart = () => {
                 >
                     Next
                 </button>
-            </StepNav>
-            <StepBody>
+            </Step.Nav>
+            <Step.Body names={['Products', 'Add product']}>
                 <ProductList />
                 <AddProduct send={send} />
-            </StepBody>
+            </Step.Body>
         </>
     );
 };
 
-export default Cart;
+export default CartStep;

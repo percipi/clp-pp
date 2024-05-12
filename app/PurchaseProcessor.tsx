@@ -1,7 +1,7 @@
 import React from 'react';
 import Shipping from './components/ShippingStep/Shipping';
 import AddressStep from './components/AddressStep/AddressStep';
-import Cart from './components/CartStep/Cart';
+import CartStep from './components/CartStep/CartStep';
 import CompletedStep from './components/CompletedStep/CompletedStep';
 import FinalizingStep from './components/FinalizingStep/FinalizingStep';
 import FinalizedStep from './components/FinalizedStep/FinalizedStep';
@@ -16,7 +16,7 @@ const PurchaseProcessor = () => {
         <main className="container mx-auto flex flex-col gap-5">
             <h1 className="bg-white p-3 m-0">purchasing process</h1>
             {state.matches('cart') && ( // TODO change to matches
-                <Cart />
+                <CartStep />
             )}
             {state.matches('addressed') && <AddressStep />}
             {state.hasTag('shipping') && <Shipping />}

@@ -1,7 +1,8 @@
 import React from 'react';
 import AddressForm from './AddressForm';
 import { PurchaseMachineContext } from '@/app/page';
-import StepNav from '../StepNav';
+import StepNav from '../Step/StepNav';
+import Step from '../Step';
 
 const ADDRESS_FORM_ID = 'address-form';
 
@@ -13,7 +14,7 @@ const AddressStep = () => {
 
     return (
         <>
-            <StepNav name="Address">
+            <Step.Nav name="Address">
                 <button
                     type="submit"
                     form={ADDRESS_FORM_ID}
@@ -21,12 +22,14 @@ const AddressStep = () => {
                 >
                     Next
                 </button>
-            </StepNav>
-            <AddressForm
-                id={ADDRESS_FORM_ID}
-                address={address}
-                send={send}
-            />
+            </Step.Nav>
+            <Step.Body names={['Shipping address']}>
+                <AddressForm
+                    id={ADDRESS_FORM_ID}
+                    address={address}
+                    send={send}
+                />
+            </Step.Body>
         </>
     );
 };

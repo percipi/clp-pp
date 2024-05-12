@@ -8,9 +8,7 @@ const ProductList = () => {
     const { send } = PurchaseMachineContext.useActorRef();
 
     return (
-        <section className="grow p-3 bg-white">
-            <h3>Products</h3>
-
+        <>
             {products.length > 0 ? (
                 <div
                     className="overflow-x-auto"
@@ -71,7 +69,7 @@ const ProductList = () => {
             ) : (
                 <span>Cart is empty</span>
             )}
-        </section>
+        </>
     );
 };
 

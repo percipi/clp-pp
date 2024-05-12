@@ -23,63 +23,60 @@ const AddProduct = ({ send }: Props) => {
     };
 
     return (
-        <section className="p-3 bg-white">
-            <h3>Add product</h3>
-            <form
-                onSubmit={handleSubmit}
-                className="form-control"
-            >
-                <div className="form-control">
-                    <label
-                        htmlFor="productName"
-                        className="label cursor-pointer"
-                    >
-                        <div className="label-text mr-5">Name</div>
-                        <input
-                            type="text"
-                            className="input input-bordered"
-                            id="productName"
-                            ref={nameRef}
-                            minLength={3}
-                            maxLength={40}
-                            required
-                        />
-                    </label>
-                </div>
+        <form
+            onSubmit={handleSubmit}
+            className="form-control"
+        >
+            <div className="form-control">
                 <label
-                    htmlFor="productPrice"
+                    htmlFor="productName"
                     className="label cursor-pointer"
                 >
-                    <span className="label-text">Price</span>
+                    <div className="label-text mr-5">Name</div>
                     <input
-                        type="number"
-                        min="0"
-                        max="1000000"
+                        type="text"
                         className="input input-bordered"
-                        id="productPrice"
-                        ref={priceRef}
+                        id="productName"
+                        ref={nameRef}
+                        minLength={3}
+                        maxLength={40}
                         required
                     />
                 </label>
-                <label
-                    htmlFor="productShipping"
-                    className="label cursor-pointer"
-                >
-                    <span className="label-text">Requires shipping</span>
-                    <input
-                        type="checkbox"
-                        className="toggle toggle-secondary"
-                        ref={shippingRef}
-                    />
-                </label>
-                <button
-                    className="btn btn-secondary"
-                    type="submit"
-                >
-                    Add
-                </button>
-            </form>
-        </section>
+            </div>
+            <label
+                htmlFor="productPrice"
+                className="label cursor-pointer"
+            >
+                <span className="label-text">Price</span>
+                <input
+                    type="number"
+                    min="0"
+                    max="1000000"
+                    className="input input-bordered"
+                    id="productPrice"
+                    ref={priceRef}
+                    required
+                />
+            </label>
+            <label
+                htmlFor="productShipping"
+                className="label cursor-pointer"
+            >
+                <span className="label-text">Requires shipping</span>
+                <input
+                    type="checkbox"
+                    className="toggle toggle-secondary"
+                    ref={shippingRef}
+                />
+            </label>
+            <button
+                className="btn btn-secondary"
+                type="submit"
+            >
+                Add
+            </button>
+        </form>
     );
 };
 
