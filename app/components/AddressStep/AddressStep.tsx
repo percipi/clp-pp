@@ -1,6 +1,7 @@
 import React from 'react';
 import AddressForm from './AddressForm';
 import { PurchaseMachineContext } from '@/app/page';
+import StepNav from '../StepNav';
 
 const ADDRESS_FORM_ID = 'address-form';
 
@@ -11,23 +12,22 @@ const AddressStep = () => {
     const { send } = PurchaseMachineContext.useActorRef();
 
     return (
-        <section>
-            <h2>Address</h2>
+        <>
+            <StepNav name="Address">
+                <button
+                    type="submit"
+                    form={ADDRESS_FORM_ID}
+                    className="btn btn-primary"
+                >
+                    Next
+                </button>
+            </StepNav>
             <AddressForm
                 id={ADDRESS_FORM_ID}
                 address={address}
                 send={send}
             />
-            <div className="flex gap-5">
-                <button
-                    type="submit"
-                    form={ADDRESS_FORM_ID}
-                    className="btn"
-                >
-                    Next
-                </button>
-            </div>
-        </section>
+        </>
     );
 };
 

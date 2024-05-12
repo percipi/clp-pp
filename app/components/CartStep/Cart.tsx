@@ -3,6 +3,7 @@ import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/page';
 import StepNav from '../StepNav';
+import StepBody from '../StepBody';
 
 const Cart = () => {
     const products = PurchaseMachineContext.useSelector(
@@ -21,10 +22,10 @@ const Cart = () => {
                     Next
                 </button>
             </StepNav>
-            <div className="flex gap-5 items-start">
+            <StepBody>
                 <ProductList />
                 <AddProduct send={send} />
-            </div>
+            </StepBody>
         </>
     );
 };

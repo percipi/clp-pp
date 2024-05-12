@@ -1,11 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 interface Props {
     name: string;
-    children: ReactNode;
 }
 
-const StepNav = ({ name, children }: Props) => {
+const StepNav = ({ name, children }: PropsWithChildren<Props>) => {
     return (
         <nav className="flex place-content-between px-3 items-center">
             <h2 className="m-0">{name}</h2>

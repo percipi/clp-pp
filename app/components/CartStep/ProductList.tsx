@@ -8,7 +8,7 @@ const ProductList = () => {
     const { send } = PurchaseMachineContext.useActorRef();
 
     return (
-        <section className="w-full p-3 bg-white">
+        <section className="grow p-3 bg-white">
             <h3>Products</h3>
 
             {products.length > 0 ? (

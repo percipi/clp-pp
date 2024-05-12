@@ -14,7 +14,7 @@ const AddressForm = ({
     send,
 }: Props) => {
     return (
-        <section className="my-10 max-w-80">
+        <section className="grow p-3 bg-white">
             <h3>Shipping address</h3>
             <form
                 id={id}
@@ -22,13 +22,14 @@ const AddressForm = ({
                     e.preventDefault();
                     send({ type: 'shipping' });
                 }}
+                className="form-control max-w-96"
             >
                 <div className="form-control">
                     <label
                         htmlFor="name"
                         className="label cursor-pointer"
                     >
-                        <span className="label-text">Street</span>
+                        <div className="label-text">Street</div>
                         <input
                             type="text"
                             className="input input-bordered"
