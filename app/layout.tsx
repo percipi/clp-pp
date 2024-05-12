@@ -18,7 +18,7 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            data-theme="cupcake"
+            data-theme="nord"
         >
             <body className={`${inter.className} max-w-5xl mx-auto`}>
                 {children}

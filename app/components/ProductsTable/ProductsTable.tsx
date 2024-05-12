@@ -11,7 +11,6 @@ const ProductsTable = ({ products, onDelete }: Props) => {
         <table className="table table-zebra table-pin-rows">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Shipping required</th>
@@ -21,7 +20,6 @@ const ProductsTable = ({ products, onDelete }: Props) => {
             <tbody>
                 {products.map((product) => (
                     <tr key={product.id}>
-                        <td>{product.id}</td>
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.isShippingRequired ? 'YES' : 'NO'}</td>
