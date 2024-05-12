@@ -2,6 +2,7 @@ import React from 'react';
 import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/page';
+import StepNav from '../StepNav';
 
 const Cart = () => {
     const products = PurchaseMachineContext.useSelector(
@@ -11,19 +12,19 @@ const Cart = () => {
 
     return (
         <>
-            <h2>Cart</h2>
-            <div className="flex gap-10">
+            <StepNav name="Cart">
+                <button
+                    className="btn btn-primary"
+                    onClick={() => send({ type: 'address' })}
+                    disabled={!products.length}
+                >
+                    Next
+                </button>
+            </StepNav>
+            <div className="flex gap-5 items-start">
                 <ProductList />
                 <AddProduct send={send} />
             </div>
-
-            <button
-                className="btn btn-primary"
-                onClick={() => send({ type: 'address' })}
-                disabled={!products.length}
-            >
-                Next
-            </button>
         </>
     );
 };

@@ -8,12 +8,12 @@ const ProductList = () => {
     const { send } = PurchaseMachineContext.useActorRef();
 
     return (
-        <section className="w-full my-10 ">
+        <section className="w-full p-3 bg-white">
             <h3>Products</h3>
 
             {products.length > 0 ? (
                 <div
-                    className="overflow-x-auto h-96"
+                    className="overflow-x-auto"
                     style={{ scrollbarGutter: 'stable' }}
                 >
                     <table className="table table-zebra table-pin-rows">
@@ -45,9 +45,22 @@ const ProductList = () => {
                                                     value: product.id,
                                                 })
                                             }
-                                            className="btn btn-warning"
+                                            className="btn btn-xs btn-circle btn-ghost"
                                         >
-                                            DELETE
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-4 w-4"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M6 18L18 6M6 6l12 12"
+                                                />
+                                            </svg>
                                         </button>
                                     </td>
                                 </tr>

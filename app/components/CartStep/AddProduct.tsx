@@ -23,7 +23,7 @@ const AddProduct = ({ send }: Props) => {
     };
 
     return (
-        <section className="my-10 min-w-80">
+        <section className="p-3 bg-white">
             <h3>Add product</h3>
             <form
                 onSubmit={handleSubmit}
@@ -34,14 +34,14 @@ const AddProduct = ({ send }: Props) => {
                         htmlFor="productName"
                         className="label cursor-pointer"
                     >
-                        <span className="label-text">Name</span>
+                        <div className="label-text mr-5">Name</div>
                         <input
                             type="text"
                             className="input input-bordered"
                             id="productName"
                             ref={nameRef}
                             minLength={3}
-                            maxLength={25}
+                            maxLength={40}
                             required
                         />
                     </label>
