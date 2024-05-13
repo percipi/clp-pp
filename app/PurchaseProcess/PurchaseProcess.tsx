@@ -6,20 +6,25 @@ import SummaryStep from './SummaryStep/SummaryStep';
 import CompletedStep from './CompletedStep/CompletedStep';
 import PaymentStep from './PaymentStep/PaymentStep';
 import { PurchaseMachineContext } from './PurchaseProcessContext';
-import { PurchaseStates } from '../machines/purchaseMachine';
 
 const PurchaseProcess = () => {
     const state = PurchaseMachineContext.useSelector((state) => state);
-    return (
-        <>
-            {state.matches('cart') && <CartStep />}
-            {state.matches('address') && <AddressStep />}
-            {state.hasTag('shipping') && <ShippingStep />}
-            {state.hasTag('payment') && <PaymentStep />}
-            {state.matches('summary') && <SummaryStep />}
-            {state.hasTag('final') && <CompletedStep />}
-        </>
-    );
+    switch (true) {
+        case state.matches('cart'):
+            return <CartStep />;
+        case state.matches('address'):
+            return <AddressStep />;
+        case state.hasTag('shipping'):
+            return <ShippingStep />;
+        case state.hasTag('payment'):
+            return <PaymentStep />;
+        case state.matches('summary'):
+            return <SummaryStep />;
+        case state.hasTag('final'):
+            return <CompletedStep />;
+        default:
+            return <CartStep />;
+    }
 };
 
 export default PurchaseProcess;
