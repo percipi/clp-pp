@@ -8,8 +8,8 @@ interface Props {
 
 const StepNav = ({ currentStep, children }: PropsWithChildren<Props>) => {
     return (
-        <nav className="flex place-content-between px-3 items-center">
-            <div className="flex gap-5">
+        <nav className="flex place-content-between px-3 items-center gap-5 max-sm:flex-col">
+            <div className="flex gap-5 max-sm:flex-col max-sm:w-full">
                 {Object.keys(STEP_ORDER_NUMBERS).map((step) => (
                     <NavButton
                         disabled={

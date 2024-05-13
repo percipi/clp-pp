@@ -4,6 +4,7 @@ import AddressForm from './AddressForm';
 import Step from '../../components/Step';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import { STEPS } from '@/app/machines/purchaseMachine';
+import NextButton from '@/app/components/NextButton';
 const ADDRESS_FORM_ID = 'address-form';
 
 const AddressStep = () => {
@@ -15,13 +16,7 @@ const AddressStep = () => {
     return (
         <>
             <Step.Nav currentStep={STEPS.address}>
-                <button
-                    type="submit"
-                    form={ADDRESS_FORM_ID}
-                    className="btn btn-primary"
-                >
-                    Next
-                </button>
+                <NextButton form={ADDRESS_FORM_ID} />
             </Step.Nav>
             <Step.Body names={['Shipping address']}>
                 <AddressForm

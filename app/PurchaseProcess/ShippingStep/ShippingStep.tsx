@@ -2,6 +2,7 @@ import React from 'react';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
 import { COUNTRIES, SHIPPING, STEPS } from '@/app/machines/purchaseMachine';
+import NextButton from '@/app/components/NextButton';
 
 const SHIPPING_FORM_ID = 'address-form';
 
@@ -26,20 +27,9 @@ const ShippingStep = () => {
         <>
             <Step.Nav currentStep={STEPS.shipping}>
                 {state.matches('shipping_selected') ? (
-                    <button
-                        className="btn btn-primary"
-                        type="submit"
-                        form={SHIPPING_FORM_ID}
-                    >
-                        Next
-                    </button>
+                    <NextButton form={SHIPPING_FORM_ID} />
                 ) : (
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => send({ type: 'payment' })}
-                    >
-                        Next
-                    </button>
+                    <NextButton onClick={() => send({ type: 'payment' })} />
                 )}
             </Step.Nav>
             <Step.Body names={['Shipping method']}>

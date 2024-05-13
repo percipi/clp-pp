@@ -15,7 +15,7 @@ const NavButton = ({ step, disabled, isCurrent }: Props) => {
     return (
         <button
             disabled={disabled}
-            className={`btn  ${
+            className={`btn max-sm:w-full  ${
                 isCurrent
                     ? 'btn-accent cursor-default no-animation'
                     : 'btn-secondary'

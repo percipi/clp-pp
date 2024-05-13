@@ -2,6 +2,7 @@ import React from 'react';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
 import { PAYMENTS, STEPS } from '@/app/machines/purchaseMachine';
+import NextButton from '@/app/components/NextButton';
 
 const PAYMENT_FORM_ID = 'address-form';
 
@@ -13,20 +14,9 @@ const PaymentStep = () => {
         <>
             <Step.Nav currentStep={STEPS.payment}>
                 {state.matches('payment_selected') ? (
-                    <button
-                        className="btn btn-primary"
-                        form={PAYMENT_FORM_ID}
-                        type="submit"
-                    >
-                        Next
-                    </button>
+                    <NextButton form={PAYMENT_FORM_ID} />
                 ) : (
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => send({ type: 'summary' })}
-                    >
-                        Next
-                    </button>
+                    <NextButton onClick={() => send({ type: 'summary' })} />
                 )}
             </Step.Nav>
             <Step.Body names={['Payment method']}>

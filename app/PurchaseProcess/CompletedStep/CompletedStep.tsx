@@ -7,7 +7,7 @@ export async function sendPurchase(purchase: PurchaseContext): Promise<string> {
     return new Promise((res, rej) => {
         setTimeout(() => {
             console.log('Sending:', purchase);
-            if (Math.random() < 0.8) {
+            if (Math.random() < 0.6) {
                 rej();
                 return;
             }
@@ -24,28 +24,37 @@ const CompletedStep = () => {
     switch (true) {
         case state.matches('completed'):
             return (
-                <Step.Body names={['Order completed']}>
-                    <p>Your order was completed successfully!</p>
+                <Step.Body names={['Completed']}>
+                    <p>
+                        Your order has been processed successfully. Thank you
+                        for shopping at Online Shop!
+                    </p>
                 </Step.Body>
             );
         case state.matches('error_on_completing'):
             return (
-                <Step.Body names={['Error']}>
+                <Step.Body names={['Error on completing']}>
                     <>
-                        <p>Wait and try again.</p>
+                        <p>
+                            An error has occurred while processing your order.
+                            Please try again in a moment.
+                        </p>
                         <button
                             className="btn btn-primary"
                             onClick={() => send({ type: 'complete' })}
                         >
-                            Send order
+                            Retry
                         </button>
                     </>
                 </Step.Body>
             );
         default:
             return (
-                <Step.Body names={['Ordering...']}>
-                    <p>Your order is being processed...</p>
+                <Step.Body names={['Completing...']}>
+                    <p>
+                        Your order is sent to the server. This can take a few
+                        seconds...
+                    </p>
                 </Step.Body>
             );
     }

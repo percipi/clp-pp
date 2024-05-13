@@ -4,6 +4,7 @@ import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
 import { STEPS } from '@/app/machines/purchaseMachine';
+import NextButton from '@/app/components/NextButton';
 
 const CartStep = () => {
     const products = PurchaseMachineContext.useSelector(
@@ -14,13 +15,10 @@ const CartStep = () => {
     return (
         <>
             <Step.Nav currentStep={STEPS.cart}>
-                <button
-                    className="btn btn-primary"
+                <NextButton
                     onClick={() => send({ type: 'address' })}
                     disabled={!products.length}
-                >
-                    Next
-                </button>
+                />
             </Step.Nav>
             <Step.Body names={['Products', 'Add product']}>
                 <ProductList />
