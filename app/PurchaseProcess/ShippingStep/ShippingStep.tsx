@@ -1,12 +1,7 @@
 import React from 'react';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
-import {
-    COUNTRIES,
-    SHIPPING,
-    backToPreviousStepLogic,
-} from '@/app/machines/purchaseMachine';
-import NavButton from '@/app/components/NavButton';
+import { COUNTRIES, SHIPPING, STEPS } from '@/app/machines/purchaseMachine';
 
 const SHIPPING_FORM_ID = 'address-form';
 
@@ -29,31 +24,23 @@ const ShippingStep = () => {
 
     return (
         <>
-            <Step.Nav name="Shipping">
-                <div className="flex gap-5 btn-secondary">
-                    {backToPreviousStepLogic['shipping'].map((event) => (
-                        <NavButton
-                            key={event.type}
-                            purchaseEvent={event}
-                        />
-                    ))}
-                    {state.matches('shipping_selected') ? (
-                        <button
-                            className="btn btn-primary"
-                            type="submit"
-                            form={SHIPPING_FORM_ID}
-                        >
-                            Next
-                        </button>
-                    ) : (
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => send({ type: 'payment' })}
-                        >
-                            Next
-                        </button>
-                    )}
-                </div>
+            <Step.Nav currentStep={STEPS.shipping}>
+                {state.matches('shipping_selected') ? (
+                    <button
+                        className="btn btn-primary"
+                        type="submit"
+                        form={SHIPPING_FORM_ID}
+                    >
+                        Next
+                    </button>
+                ) : (
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => send({ type: 'payment' })}
+                    >
+                        Next
+                    </button>
+                )}
             </Step.Nav>
             <Step.Body names={['Shipping method']}>
                 {state.matches('shipping_selected') ? (

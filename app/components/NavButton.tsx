@@ -1,21 +1,32 @@
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import React from 'react';
-import { PurchaseEvents } from '../machines/purchaseMachine';
 import { capitalize } from '../utils';
+import { PurchaseEvents } from '../machines/purchaseMachine';
 
 interface Props {
-    purchaseEvent: PurchaseEvents;
+    step: string;
+    disabled: boolean;
+    isCurrent: boolean;
 }
 
-const NavButton = ({ purchaseEvent }: Props) => {
+const NavButton = ({ step, disabled, isCurrent }: Props) => {
     const { send } = PurchaseMachineContext.useActorRef();
 
     return (
         <button
-            className="btn btn-secondary"
-            onClick={() => send(purchaseEvent)}
+            disabled={disabled}
+            className={`btn  ${
+                isCurrent
+                    ? 'btn-accent cursor-default no-animation'
+                    : 'btn-secondary'
+            } `}
+            onClick={
+                isCurrent
+                    ? (x) => x
+                    : () => send({ type: step } as PurchaseEvents)
+            }
         >
-            {capitalize(purchaseEvent.type)}
+            {capitalize(step)}
         </button>
     );
 };

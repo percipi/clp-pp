@@ -1,13 +1,27 @@
+import { STEP_ORDER_NUMBERS } from '@/app/machines/purchaseMachine';
 import React, { PropsWithChildren } from 'react';
+import NavButton from '../NavButton';
 
 interface Props {
-    name: string;
+    currentStep: string;
 }
 
-const StepNav = ({ name, children }: PropsWithChildren<Props>) => {
+const StepNav = ({ currentStep, children }: PropsWithChildren<Props>) => {
     return (
         <nav className="flex place-content-between px-3 items-center">
-            <h2 className="m-0">{name}</h2>
+            <div className="flex gap-5">
+                {Object.keys(STEP_ORDER_NUMBERS).map((step) => (
+                    <NavButton
+                        disabled={
+                            STEP_ORDER_NUMBERS[step] >
+                            STEP_ORDER_NUMBERS[currentStep]
+                        }
+                        isCurrent={step === currentStep}
+                        key={step}
+                        step={step}
+                    />
+                ))}
+            </div>
             {children}
         </nav>
     );

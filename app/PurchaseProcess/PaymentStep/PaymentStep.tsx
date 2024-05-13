@@ -1,11 +1,7 @@
 import React from 'react';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
-import {
-    PAYMENTS,
-    backToPreviousStepLogic,
-} from '@/app/machines/purchaseMachine';
-import NavButton from '@/app/components/NavButton';
+import { PAYMENTS, STEPS } from '@/app/machines/purchaseMachine';
 
 const PAYMENT_FORM_ID = 'address-form';
 
@@ -15,31 +11,23 @@ const PaymentStep = () => {
     const { send } = PurchaseMachineContext.useActorRef();
     return (
         <>
-            <Step.Nav name="Payment">
-                <div className="flex gap-5">
-                    {backToPreviousStepLogic['payment'].map((event) => (
-                        <NavButton
-                            key={event.type}
-                            purchaseEvent={event}
-                        />
-                    ))}
-                    {state.matches('payment_selected') ? (
-                        <button
-                            className="btn btn-primary"
-                            form={PAYMENT_FORM_ID}
-                            type="submit"
-                        >
-                            Next
-                        </button>
-                    ) : (
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => send({ type: 'complete' })}
-                        >
-                            Next
-                        </button>
-                    )}
-                </div>
+            <Step.Nav currentStep={STEPS.payment}>
+                {state.matches('payment_selected') ? (
+                    <button
+                        className="btn btn-primary"
+                        form={PAYMENT_FORM_ID}
+                        type="submit"
+                    >
+                        Next
+                    </button>
+                ) : (
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => send({ type: 'summary' })}
+                    >
+                        Next
+                    </button>
+                )}
             </Step.Nav>
             <Step.Body names={['Payment method']}>
                 {state.matches('payment_selected') ? (
@@ -47,7 +35,7 @@ const PaymentStep = () => {
                         id={PAYMENT_FORM_ID}
                         onSubmit={(e) => {
                             e.preventDefault();
-                            send({ type: 'complete' });
+                            send({ type: 'summary' });
                         }}
                         className="form-control max-w-96"
                     >

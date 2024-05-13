@@ -2,7 +2,7 @@ import React from 'react';
 import ShippingStep from './ShippingStep/ShippingStep';
 import AddressStep from './AddressStep/AddressStep';
 import CartStep from './CartStep/CartStep';
-import CompletedStep from './SummaryStep/SummaryStep';
+import SummaryStep from './SummaryStep/SummaryStep';
 import FinalizingStep from './FinalizingStep/FinalizingStep';
 import FinalizedStep from './FinalizedStep/FinalizedStep';
 import FinalizingFailedStep from './FinalizingFailedStep/FinalizingFailedStep';
@@ -18,7 +18,7 @@ const PurchaseProcess = () => {
             {state.matches(PurchaseStates.address) && <AddressStep />}
             {state.hasTag('shipping') && <ShippingStep />}
             {state.hasTag('payment') && <PaymentStep />}
-            {state.matches('completed') && <CompletedStep />}
+            {state.matches('summary') && <SummaryStep />}
             {state.matches('finalizing_purchase') && <FinalizingStep />}
             {state.matches('purchase_finalized') && <FinalizedStep />}
             {state.matches('finalizing_failed') && <FinalizingFailedStep />}

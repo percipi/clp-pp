@@ -3,9 +3,7 @@ import AddressForm from './AddressForm';
 
 import Step from '../../components/Step';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
-import { backToPreviousStepLogic } from '@/app/machines/purchaseMachine';
-import NavButton from '@/app/components/NavButton';
-
+import { STEPS } from '@/app/machines/purchaseMachine';
 const ADDRESS_FORM_ID = 'address-form';
 
 const AddressStep = () => {
@@ -16,22 +14,14 @@ const AddressStep = () => {
 
     return (
         <>
-            <Step.Nav name="Address">
-                <div className="flex gap-5">
-                    {backToPreviousStepLogic['address'].map((event) => (
-                        <NavButton
-                            key={event.type}
-                            purchaseEvent={event}
-                        />
-                    ))}
-                    <button
-                        type="submit"
-                        form={ADDRESS_FORM_ID}
-                        className="btn btn-primary"
-                    >
-                        Next
-                    </button>
-                </div>
+            <Step.Nav currentStep={STEPS.address}>
+                <button
+                    type="submit"
+                    form={ADDRESS_FORM_ID}
+                    className="btn btn-primary"
+                >
+                    Next
+                </button>
             </Step.Nav>
             <Step.Body names={['Shipping address']}>
                 <AddressForm

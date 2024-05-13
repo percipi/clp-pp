@@ -6,17 +6,20 @@ export const enum PurchaseStates {
     address = 'address',
 }
 
-export const backToPreviousStepLogic: { [index: string]: PurchaseEvents[] } = {
-    [PurchaseStates.cart]: [],
-    [PurchaseStates.address]: [{ type: 'cart' }],
-    shipping: [{ type: 'cart' }, { type: 'address' }],
-    payment: [{ type: 'cart' }, { type: 'address' }, { type: 'shipping' }],
-    completed: [
-        { type: 'cart' },
-        { type: 'address' },
-        { type: 'shipping' },
-        { type: 'payment' },
-    ],
+export const STEPS = {
+    cart: 'cart',
+    address: 'address',
+    shipping: 'shipping',
+    payment: 'payment',
+    summary: 'summary',
+};
+
+export const STEP_ORDER_NUMBERS: { [key: string]: number } = {
+    [STEPS.cart]: 0,
+    [STEPS.address]: 1,
+    [STEPS.shipping]: 2,
+    [STEPS.payment]: 3,
+    [STEPS.summary]: 4,
 };
 
 export enum COUNTRIES {
@@ -60,8 +63,6 @@ export type PurchaseEvents =
     | { type: 'address' }
     | { type: 'shipping' }
     | { type: 'payment' }
-    | { type: 'select_payment' }
-    | { type: 'skip_payment' }
     | { type: 'add_product'; value: Omit<Product, 'id'> }
     | { type: 'delete_product'; value: number }
     | { type: 'change_street'; value: string }
@@ -69,7 +70,7 @@ export type PurchaseEvents =
     | { type: 'change_country'; value: COUNTRIES }
     | { type: 'change_shipping'; value: SHIPPING }
     | { type: 'change_payment'; value: PAYMENTS }
-    | { type: 'complete' }
+    | { type: 'summary' }
     | { type: 'finalize_purchase' };
 const purchaseMachine = setup({
     types: {} as {
@@ -213,7 +214,7 @@ const purchaseMachine = setup({
             on: {
                 cart: PurchaseStates.cart,
                 address: PurchaseStates.address,
-                complete: 'completed',
+                summary: 'summary',
                 shipping: [
                     {
                         guard: 'isProductWithShippingRequiredInCart',
@@ -231,7 +232,7 @@ const purchaseMachine = setup({
             on: {
                 cart: PurchaseStates.cart,
                 address: PurchaseStates.address,
-                complete: 'completed',
+                summary: 'summary',
                 change_payment: {
                     actions: assign({
                         payment: ({ event }) => {
@@ -251,7 +252,7 @@ const purchaseMachine = setup({
             },
         },
 
-        completed: {
+        summary: {
             on: {
                 cart: PurchaseStates.cart,
                 address: PurchaseStates.address,
@@ -263,6 +264,13 @@ const purchaseMachine = setup({
                     {
                         target: 'shipping_skipped',
                     },
+                ],
+                payment: [
+                    {
+                        guard: 'isPayableProductInCart',
+                        target: 'payment_selected',
+                    },
+                    { target: 'payment_skipped' },
                 ],
                 finalize_purchase: 'finalizing_purchase',
             },

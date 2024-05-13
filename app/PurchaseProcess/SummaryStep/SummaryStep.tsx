@@ -2,10 +2,9 @@ import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessCon
 import React from 'react';
 import Step from '../../components/Step';
 import ProductsTable from '../ProductsTable';
-import { backToPreviousStepLogic } from '@/app/machines/purchaseMachine';
-import NavButton from '@/app/components/NavButton';
+import { STEPS } from '@/app/machines/purchaseMachine';
 
-const CompletedStep = () => {
+const SummaryStep = () => {
     const {
         products,
         shipping,
@@ -15,16 +14,7 @@ const CompletedStep = () => {
     const { send } = PurchaseMachineContext.useActorRef();
     return (
         <>
-            <Step.Nav name="Summary">
-                <div className="flex gap-5">
-                    {backToPreviousStepLogic['completed'].map((event) => (
-                        <NavButton
-                            key={event.type}
-                            purchaseEvent={event}
-                        />
-                    ))}
-                </div>
-            </Step.Nav>
+            <Step.Nav currentStep={STEPS.summary}></Step.Nav>
             <Step.Body names={['Purchase order summary']}>
                 <div>
                     <section className="mb-5">
@@ -38,17 +28,17 @@ const CompletedStep = () => {
                         <p>Country: {country}</p>
                     </section>
                     <section className="mb-5">
-                        <h4>Payment</h4>
-                        <p>
-                            {payment ||
-                                'No product in the cart requires payment.'}
-                        </p>
-                    </section>
-                    <section className="mb-5">
                         <h4>Shipping</h4>
                         <p>
                             {shipping ||
                                 'No product in the cart requires shipping.'}
+                        </p>
+                    </section>
+                    <section className="mb-5">
+                        <h4>Payment</h4>
+                        <p>
+                            {payment ||
+                                'No product in the cart requires payment.'}
                         </p>
                     </section>
                     <div className="flex gap-5">
@@ -65,4 +55,4 @@ const CompletedStep = () => {
     );
 };
 
-export default CompletedStep;
+export default SummaryStep;

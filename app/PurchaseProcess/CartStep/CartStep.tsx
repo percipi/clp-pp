@@ -3,6 +3,7 @@ import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
+import { STEPS } from '@/app/machines/purchaseMachine';
 
 const CartStep = () => {
     const products = PurchaseMachineContext.useSelector(
@@ -12,7 +13,7 @@ const CartStep = () => {
 
     return (
         <>
-            <Step.Nav name="Cart">
+            <Step.Nav currentStep={STEPS.cart}>
                 <button
                     className="btn btn-primary"
                     onClick={() => send({ type: 'address' })}
