@@ -1,8 +1,8 @@
 import React from 'react';
 import AddressForm from './AddressForm';
-import { PurchaseMachineContext } from '@/app/page';
-import StepNav from '../Step/StepNav';
-import Step from '../Step';
+
+import Step from '../../components/Step';
+import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 
 const ADDRESS_FORM_ID = 'address-form';
 

@@ -1,6 +1,6 @@
-import { PurchaseMachineContext } from '@/app/page';
+import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import React from 'react';
-import Step from '../Step';
+import Step from '../../components/Step';
 import ProductsTable from '../ProductsTable';
 
 const CompletedStep = () => {

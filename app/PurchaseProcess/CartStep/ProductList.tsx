@@ -1,4 +1,4 @@
-import { PurchaseMachineContext } from '@/app/page';
+import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import React from 'react';
 import ProductsTable from '../ProductsTable';
 

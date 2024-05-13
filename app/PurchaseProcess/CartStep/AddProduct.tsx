@@ -1,3 +1,4 @@
+'use client';
 import { PurchaseEvents } from '@/app/machines/purchaseMachine';
 import React, { FormEvent, useRef } from 'react';
 
@@ -25,7 +26,7 @@ const AddProduct = ({ send }: Props) => {
     return (
         <form
             onSubmit={handleSubmit}
-            className="form-control"
+            className="form-control max-w-96"
         >
             <div className="form-control">
                 <label
@@ -39,7 +40,7 @@ const AddProduct = ({ send }: Props) => {
                         id="productName"
                         ref={nameRef}
                         minLength={3}
-                        maxLength={40}
+                        maxLength={25}
                         required
                     />
                 </label>

@@ -1,5 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { sendPurchase } from '../components/FinalizingStep/FinalizingStep';
+import { sendPurchase } from '../PurchaseProcess/FinalizingStep/FinalizingStep';
 
 export enum COUNTRIES {
     POLAND = 'Poland',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { PurchaseMachineContext } from '@/app/page';
-import Step from '../Step';
+import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
+import Step from '../../components/Step';
 import { COUNTRIES, SHIPPING } from '@/app/machines/purchaseMachine';
 
 const SHIPPING_FORM_ID = 'address-form';
@@ -73,7 +73,10 @@ const ShippingStep = () => {
                             required
                         >
                             {['', ...shippingMethods].map((shipping) => (
-                                <option value={shipping}>
+                                <option
+                                    key={shipping}
+                                    value={shipping}
+                                >
                                     {shipping
                                         ? shipping
                                         : '--- Select your shipping method ---'}

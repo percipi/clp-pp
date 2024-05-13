@@ -5,9 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Purchase process',
-    description:
-        'Purchase process compoenent build with React, Next.js and xstate',
+    title: 'Online Shop - purchase process',
+    description: 'Purchase process build with React, Next.js and xstate',
 };
 
 export default function RootLayout({

@@ -1,8 +1,8 @@
 import React from 'react';
 import AddProduct from './AddProduct';
 import ProductList from './ProductList';
-import { PurchaseMachineContext } from '@/app/page';
-import Step from '../Step';
+import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
+import Step from '../../components/Step';
 
 const CartStep = () => {
     const products = PurchaseMachineContext.useSelector(

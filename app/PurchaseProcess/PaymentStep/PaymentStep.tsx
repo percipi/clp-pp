@@ -1,6 +1,6 @@
 import React from 'react';
-import { PurchaseMachineContext } from '@/app/page';
-import Step from '../Step';
+import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
+import Step from '../../components/Step';
 import { PAYMENTS } from '@/app/machines/purchaseMachine';
 
 const PAYMENT_FORM_ID = 'address-form';
@@ -61,7 +61,10 @@ const PaymentStep = () => {
                             required
                         >
                             {['', ...Object.values(PAYMENTS)].map((payment) => (
-                                <option value={payment}>
+                                <option
+                                    key={payment}
+                                    value={payment}
+                                >
                                     {payment
                                         ? payment
                                         : '--- Select your payment method ---'}
