@@ -1,5 +1,13 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { sendPurchase } from '../PurchaseProcess/CompletedStep/CompletedStep';
+
+// https://public.requestbin.com/r/enb7fze0kvb8w
+async function sendPurchase(purchase: PurchaseContext): Promise<Response> {
+    return fetch('https://enb7fze0kvb8w.x.pipedream.net', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(purchase),
+    });
+}
 
 export const enum PurchaseStates {
     cart = 'cart',

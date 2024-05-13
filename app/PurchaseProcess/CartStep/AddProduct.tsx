@@ -39,8 +39,8 @@ const AddProduct = ({ send }: Props) => {
                         className="input input-bordered"
                         id="productName"
                         ref={nameRef}
-                        minLength={3}
-                        maxLength={25}
+                        minLength={1}
+                        maxLength={20}
                         required
                     />
                 </label>

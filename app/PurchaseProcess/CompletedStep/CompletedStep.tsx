@@ -1,21 +1,6 @@
-import { PurchaseContext } from '@/app/machines/purchaseMachine';
 import React from 'react';
 import { PurchaseMachineContext } from '../PurchaseProcessContext';
 import Step from '@/app/components/Step';
-
-export async function sendPurchase(purchase: PurchaseContext): Promise<string> {
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            console.log('Sending:', purchase);
-            if (Math.random() < 0.6) {
-                rej();
-                return;
-            }
-
-            res('OK!');
-        }, 3000);
-    });
-}
 
 const CompletedStep = () => {
     const state = PurchaseMachineContext.useSelector((state) => state);
@@ -40,7 +25,7 @@ const CompletedStep = () => {
                             Please try again in a moment.
                         </p>
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary mt-5"
                             onClick={() => send({ type: 'complete' })}
                         >
                             Retry

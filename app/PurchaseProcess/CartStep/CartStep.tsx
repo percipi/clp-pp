@@ -20,7 +20,7 @@ const CartStep = () => {
                     disabled={!products.length}
                 />
             </Step.Nav>
-            <Step.Body names={['Products', 'Add product']}>
+            <Step.Body names={['Your cart', 'Add product to cart']}>
                 <ProductList />
                 <AddProduct send={send} />
             </Step.Body>
