@@ -1,5 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
-import { sendPurchase } from '../PurchaseProcess/FinalizingStep/FinalizingStep';
+import { sendPurchase } from '../PurchaseProcess/CompletedStep/CompletedStep';
 
 export const enum PurchaseStates {
     cart = 'cart',
@@ -71,18 +71,16 @@ export type PurchaseEvents =
     | { type: 'change_shipping'; value: SHIPPING }
     | { type: 'change_payment'; value: PAYMENTS }
     | { type: 'summary' }
-    | { type: 'finalize_purchase' };
+    | { type: 'complete' };
 const purchaseMachine = setup({
     types: {} as {
         context: PurchaseContext;
         events: PurchaseEvents;
     },
     actors: {
-        finalizePurchase: fromPromise(
-            ({ input }: { input: PurchaseContext }) => {
-                return sendPurchase(input);
-            }
-        ),
+        complete: fromPromise(({ input }: { input: PurchaseContext }) => {
+            return sendPurchase(input);
+        }),
     },
     guards: {
         isProductWithShippingRequiredInCart: ({ context }) =>
@@ -272,20 +270,26 @@ const purchaseMachine = setup({
                     },
                     { target: 'payment_skipped' },
                 ],
-                finalize_purchase: 'finalizing_purchase',
+                complete: 'completing',
             },
         },
 
-        finalizing_purchase: {
+        completing: {
+            tags: ['final'],
             invoke: {
-                src: 'finalizePurchase',
+                src: 'complete',
                 input: ({ context }) => context,
-                onDone: 'purchase_finalized',
-                onError: 'finalizing_failed',
+                onDone: 'completed',
+                onError: 'error_on_completing',
             },
         },
-        finalizing_failed: {},
-        purchase_finalized: {},
+        completed: { tags: ['final'] },
+        error_on_completing: {
+            tags: ['final'],
+            on: {
+                complete: 'completing',
+            },
+        },
     },
 });
 

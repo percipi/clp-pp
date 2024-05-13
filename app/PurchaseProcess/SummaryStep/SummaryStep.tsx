@@ -44,7 +44,7 @@ const SummaryStep = () => {
                     <div className="flex gap-5">
                         <button
                             className="btn btn-primary"
-                            onClick={() => send({ type: 'finalize_purchase' })}
+                            onClick={() => send({ type: 'complete' })}
                         >
                             Send order
                         </button>
