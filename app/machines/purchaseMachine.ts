@@ -9,11 +9,6 @@ async function sendPurchase(purchase: PurchaseContext): Promise<Response> {
     });
 }
 
-export const enum PurchaseStates {
-    cart = 'cart',
-    address = 'address',
-}
-
 export const STEPS = {
     cart: 'cart',
     address: 'address',
@@ -109,11 +104,11 @@ const purchaseMachine = setup({
         shipping: '',
         payment: '',
     } as PurchaseContext,
-    initial: PurchaseStates.cart,
+    initial: 'cart',
     states: {
-        [PurchaseStates.cart]: {
+        cart: {
             on: {
-                address: PurchaseStates.address,
+                address: 'address',
                 add_product: {
                     actions: assign({
                         products: ({ event, context }) => {
@@ -142,9 +137,9 @@ const purchaseMachine = setup({
             },
         },
 
-        [PurchaseStates.address]: {
+        address: {
             on: {
-                cart: PurchaseStates.cart,
+                cart: 'cart',
                 change_street: {
                     actions: assign({
                         address: ({ event, context }) => {
@@ -181,8 +176,8 @@ const purchaseMachine = setup({
         shipping_selected: {
             tags: ['shipping'],
             on: {
-                cart: PurchaseStates.cart,
-                address: PurchaseStates.address,
+                cart: 'cart',
+                address: 'address',
                 payment: [
                     {
                         guard: 'isPayableProductInCart',
@@ -203,8 +198,8 @@ const purchaseMachine = setup({
         shipping_skipped: {
             tags: ['shipping'],
             on: {
-                cart: PurchaseStates.cart,
-                address: PurchaseStates.address,
+                cart: 'cart',
+                address: 'address',
                 payment: [
                     {
                         guard: 'isPayableProductInCart',
@@ -218,8 +213,8 @@ const purchaseMachine = setup({
         payment_skipped: {
             tags: ['payment'],
             on: {
-                cart: PurchaseStates.cart,
-                address: PurchaseStates.address,
+                cart: 'cart',
+                address: 'address',
                 summary: 'summary',
                 shipping: [
                     {
@@ -236,8 +231,8 @@ const purchaseMachine = setup({
         payment_selected: {
             tags: ['payment'],
             on: {
-                cart: PurchaseStates.cart,
-                address: PurchaseStates.address,
+                cart: 'cart',
+                address: 'address',
                 summary: 'summary',
                 change_payment: {
                     actions: assign({
@@ -260,8 +255,8 @@ const purchaseMachine = setup({
 
         summary: {
             on: {
-                cart: PurchaseStates.cart,
-                address: PurchaseStates.address,
+                cart: 'cart',
+                address: 'address',
                 shipping: [
                     {
                         guard: 'isProductWithShippingRequiredInCart',

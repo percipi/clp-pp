@@ -12,8 +12,8 @@ const PurchaseProcess = () => {
     const state = PurchaseMachineContext.useSelector((state) => state);
     return (
         <>
-            {state.matches(PurchaseStates.cart) && <CartStep />}
-            {state.matches(PurchaseStates.address) && <AddressStep />}
+            {state.matches('cart') && <CartStep />}
+            {state.matches('address') && <AddressStep />}
             {state.hasTag('shipping') && <ShippingStep />}
             {state.hasTag('payment') && <PaymentStep />}
             {state.matches('summary') && <SummaryStep />}
