@@ -21,3 +21,5 @@ Dodałem możliwość powrotu do dowolnego kroku.
 jedna specyficzna dla Polski, druga dostępna dla obu krajów"
 
 Rozumiem to w ten sposób, że dla polski są dwie metody wysyłki A (specyficzna dla Polski) i B, a dla USA tylko B.
+
+Dla każdego produktu przydzielone jest dodatkowo id (i wysyłane do endpointu)
