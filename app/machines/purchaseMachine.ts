@@ -1,4 +1,5 @@
 import { assign, fromPromise, setup } from 'xstate';
+import { COUNTRIES, SHIPPING, PAYMENTS } from '../consts';
 
 // https://public.requestbin.com/r/enb7fze0kvb8w
 async function sendPurchase(purchase: PurchaseContext): Promise<Response> {
@@ -7,22 +8,6 @@ async function sendPurchase(purchase: PurchaseContext): Promise<Response> {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(purchase),
     });
-}
-
-export enum COUNTRIES {
-    POLAND = 'Poland',
-    USA = 'USA',
-}
-
-export enum SHIPPING {
-    POLISH_EXPRESS = 'Polish Express',
-    WORLDWIDE_DELIVERY = 'Worldwide Delivery',
-}
-
-export enum PAYMENTS {
-    PAYPAL = 'PayPal',
-    BANK_TRANSACTION = 'Bank Transaction',
-    PAY_ANYWHERE = 'Pay Anywhere',
 }
 
 export interface Address {

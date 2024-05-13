@@ -1,8 +1,5 @@
-import {
-    Address,
-    COUNTRIES,
-    PurchaseEvents,
-} from '@/app/machines/purchaseMachine';
+import { COUNTRIES } from '@/app/consts';
+import { Address, PurchaseEvents } from '@/app/machines/purchaseMachine';
 
 import React from 'react';
 

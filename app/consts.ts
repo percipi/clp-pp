@@ -13,3 +13,19 @@ export const STEP_ORDER_NUMBERS: { [key: string]: number } = {
     [STEPS.payment]: 3,
     [STEPS.summary]: 4,
 };
+
+export enum COUNTRIES {
+    POLAND = 'Poland',
+    USA = 'USA',
+}
+
+export enum SHIPPING {
+    POLISH_EXPRESS = 'Polish Express',
+    WORLDWIDE_DELIVERY = 'Worldwide Delivery',
+}
+
+export enum PAYMENTS {
+    PAYPAL = 'PayPal',
+    BANK_TRANSACTION = 'Bank Transaction',
+    PAY_ANYWHERE = 'Pay Anywhere',
+}
