@@ -8,13 +8,14 @@ import FinalizedStep from './FinalizedStep/FinalizedStep';
 import FinalizingFailedStep from './FinalizingFailedStep/FinalizingFailedStep';
 import PaymentStep from './PaymentStep/PaymentStep';
 import { PurchaseMachineContext } from './PurchaseProcessContext';
+import { PurchaseStates } from '../machines/purchaseMachine';
 
 const PurchaseProcess = () => {
     const state = PurchaseMachineContext.useSelector((state) => state);
     return (
         <>
-            {state.matches('cart') && <CartStep />}
-            {state.matches('addressed') && <AddressStep />}
+            {state.matches(PurchaseStates.cart) && <CartStep />}
+            {state.matches(PurchaseStates.address) && <AddressStep />}
             {state.hasTag('shipping') && <ShippingStep />}
             {state.hasTag('payment') && <PaymentStep />}
             {state.matches('completed') && <CompletedStep />}

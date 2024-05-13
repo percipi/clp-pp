@@ -1,7 +1,11 @@
 import React from 'react';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
-import { PAYMENTS } from '@/app/machines/purchaseMachine';
+import {
+    PAYMENTS,
+    backToPreviousStepLogic,
+} from '@/app/machines/purchaseMachine';
+import NavButton from '@/app/components/NavButton';
 
 const PAYMENT_FORM_ID = 'address-form';
 
@@ -13,14 +17,13 @@ const PaymentStep = () => {
         <>
             <Step.Nav name="Payment">
                 <div className="flex gap-5">
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => send({ type: 'address' })}
-                    >
-                        Address
-                    </button>
-
-                    {state.matches('shipping_selected') ? (
+                    {backToPreviousStepLogic['payment'].map((event) => (
+                        <NavButton
+                            key={event.type}
+                            purchaseEvent={event}
+                        />
+                    ))}
+                    {state.matches('payment_selected') ? (
                         <button
                             className="btn btn-primary"
                             form={PAYMENT_FORM_ID}

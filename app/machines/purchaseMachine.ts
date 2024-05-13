@@ -1,6 +1,24 @@
 import { assign, fromPromise, setup } from 'xstate';
 import { sendPurchase } from '../PurchaseProcess/FinalizingStep/FinalizingStep';
 
+export const enum PurchaseStates {
+    cart = 'cart',
+    address = 'address',
+}
+
+export const backToPreviousStepLogic: { [index: string]: PurchaseEvents[] } = {
+    [PurchaseStates.cart]: [],
+    [PurchaseStates.address]: [{ type: 'cart' }],
+    shipping: [{ type: 'cart' }, { type: 'address' }],
+    payment: [{ type: 'cart' }, { type: 'address' }, { type: 'shipping' }],
+    completed: [
+        { type: 'cart' },
+        { type: 'address' },
+        { type: 'shipping' },
+        { type: 'payment' },
+    ],
+};
+
 export enum COUNTRIES {
     POLAND = 'Poland',
     USA = 'USA',
@@ -38,6 +56,7 @@ export interface PurchaseContext {
 }
 
 export type PurchaseEvents =
+    | { type: 'cart' }
     | { type: 'address' }
     | { type: 'shipping' }
     | { type: 'payment' }
@@ -83,11 +102,11 @@ const purchaseMachine = setup({
         shipping: '',
         payment: '',
     } as PurchaseContext,
-    initial: 'cart',
+    initial: PurchaseStates.cart,
     states: {
-        cart: {
+        [PurchaseStates.cart]: {
             on: {
-                address: 'addressed',
+                address: PurchaseStates.address,
                 add_product: {
                     actions: assign({
                         products: ({ event, context }) => {
@@ -116,8 +135,9 @@ const purchaseMachine = setup({
             },
         },
 
-        addressed: {
+        [PurchaseStates.address]: {
             on: {
+                cart: PurchaseStates.cart,
                 change_street: {
                     actions: assign({
                         address: ({ event, context }) => {
@@ -154,7 +174,8 @@ const purchaseMachine = setup({
         shipping_selected: {
             tags: ['shipping'],
             on: {
-                address: 'addressed',
+                cart: PurchaseStates.cart,
+                address: PurchaseStates.address,
                 payment: [
                     {
                         guard: 'isPayableProductInCart',
@@ -175,7 +196,8 @@ const purchaseMachine = setup({
         shipping_skipped: {
             tags: ['shipping'],
             on: {
-                address: 'addressed',
+                cart: PurchaseStates.cart,
+                address: PurchaseStates.address,
                 payment: [
                     {
                         guard: 'isPayableProductInCart',
@@ -189,15 +211,26 @@ const purchaseMachine = setup({
         payment_skipped: {
             tags: ['payment'],
             on: {
-                address: 'addressed',
+                cart: PurchaseStates.cart,
+                address: PurchaseStates.address,
                 complete: 'completed',
+                shipping: [
+                    {
+                        guard: 'isProductWithShippingRequiredInCart',
+                        target: 'shipping_selected',
+                    },
+                    {
+                        target: 'shipping_skipped',
+                    },
+                ],
             },
         },
 
         payment_selected: {
             tags: ['payment'],
             on: {
-                address: 'addressed',
+                cart: PurchaseStates.cart,
+                address: PurchaseStates.address,
                 complete: 'completed',
                 change_payment: {
                     actions: assign({
@@ -206,11 +239,31 @@ const purchaseMachine = setup({
                         },
                     }),
                 },
+                shipping: [
+                    {
+                        guard: 'isProductWithShippingRequiredInCart',
+                        target: 'shipping_selected',
+                    },
+                    {
+                        target: 'shipping_skipped',
+                    },
+                ],
             },
         },
 
         completed: {
             on: {
+                cart: PurchaseStates.cart,
+                address: PurchaseStates.address,
+                shipping: [
+                    {
+                        guard: 'isProductWithShippingRequiredInCart',
+                        target: 'shipping_selected',
+                    },
+                    {
+                        target: 'shipping_skipped',
+                    },
+                ],
                 finalize_purchase: 'finalizing_purchase',
             },
         },

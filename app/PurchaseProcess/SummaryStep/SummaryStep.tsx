@@ -2,6 +2,8 @@ import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessCon
 import React from 'react';
 import Step from '../../components/Step';
 import ProductsTable from '../ProductsTable';
+import { backToPreviousStepLogic } from '@/app/machines/purchaseMachine';
+import NavButton from '@/app/components/NavButton';
 
 const CompletedStep = () => {
     const {
@@ -15,12 +17,12 @@ const CompletedStep = () => {
         <>
             <Step.Nav name="Summary">
                 <div className="flex gap-5">
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => send({ type: 'address' })}
-                    >
-                        Adress
-                    </button>
+                    {backToPreviousStepLogic['completed'].map((event) => (
+                        <NavButton
+                            key={event.type}
+                            purchaseEvent={event}
+                        />
+                    ))}
                 </div>
             </Step.Nav>
             <Step.Body names={['Purchase order summary']}>
