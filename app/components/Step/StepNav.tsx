@@ -1,6 +1,6 @@
-import { STEP_ORDER_NUMBERS } from '@/app/machines/purchaseMachine';
 import React, { PropsWithChildren } from 'react';
 import NavButton from '../NavButton';
+import { STEP_ORDER_NUMBERS } from '@/app/consts';
 
 interface Props {
     currentStep: string;

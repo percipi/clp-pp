@@ -3,8 +3,8 @@ import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
-import { STEPS } from '@/app/machines/purchaseMachine';
 import NextButton from '@/app/components/NextButton';
+import { STEPS } from '@/app/consts';
 
 const CartStep = () => {
     const products = PurchaseMachineContext.useSelector(

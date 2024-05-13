@@ -2,7 +2,7 @@ import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessCon
 import React from 'react';
 import Step from '../../components/Step';
 import ProductsTable from '../ProductsTable';
-import { STEPS } from '@/app/machines/purchaseMachine';
+import { STEPS } from '@/app/consts';
 
 const SummaryStep = () => {
     const {

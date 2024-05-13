@@ -1,8 +1,9 @@
 import React from 'react';
 import { PurchaseMachineContext } from '@/app/PurchaseProcess/PurchaseProcessContext';
 import Step from '../../components/Step';
-import { PAYMENTS, STEPS } from '@/app/machines/purchaseMachine';
+import { PAYMENTS } from '@/app/machines/purchaseMachine';
 import NextButton from '@/app/components/NextButton';
+import { STEPS } from '@/app/consts';
 
 const PAYMENT_FORM_ID = 'address-form';
 
